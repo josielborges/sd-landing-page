@@ -1,0 +1,34 @@
+[
+  {
+    "name": "SGN",
+    "icon": "🚀",
+    "description": "Plataforma de Gestão do Negócio. Responsável por gerir toda a educação do SENAI e SESI de Santa Catarina.",
+    "tags": [
+      "Educação",
+      "SC",
+      "JAVA"
+    ],
+    "url": null
+  },
+  {
+    "name": "Habilita IA",
+    "icon": "🚀",
+    "description": "Aplicação que auxilia na criação de cards para diagnóstico do programa Habilita IA, voltado à resolução de gaps nas funções de trabalhadores da indústria.\\nUtiliza consultas a bases externas e regras específicas para gerar os cards de forma precisa e personalizada.",
+    "tags": [
+      "IA",
+      "Python",
+      "Gestão"
+    ],
+    "url": null
+  },
+  {
+    "name": "SAEP IA",
+    "icon": "🚀",
+    "description": "Aplicação que utiliza IA generativa para auxiliar na criação de itens do Sistema de Avaliação da Educação Profissional e Tecnológica.",
+    "tags": [
+      "Educação",
+      "DN"
+    ],
+    "url": null
+  }
+]
