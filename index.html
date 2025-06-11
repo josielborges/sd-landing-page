@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENAI Soluções Digitais - Inovação Tecnológica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a2b47 50%, #1565AD 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, #1565AD 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, #2196F3 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, #0D47A1 0%, transparent 50%);
+            animation: bgFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes bgFloat {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(180deg); }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .logo img {
+            height: 100%;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #2196F3;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #1565AD, #2196F3);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 0 2rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffffff, #2196F3, #1565AD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #1565AD, #2196F3);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(21, 101, 173, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(21, 101, 173, 0.5);
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffffff, #2196F3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: #cccccc;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(21, 101, 173, 0.1), rgba(33, 150, 243, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(33, 150, 243, 0.3);
+        }
+
+        .product-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #1565AD, #2196F3);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .product-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .product-card p {
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            background: rgba(33, 150, 243, 0.2);
+            color: #2196F3;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .product-link {
+            color: #2196F3;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-link:hover {
+            color: #1565AD;
+        }
+
+        /* Add Product Button */
+        .add-product {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-product:hover {
+            border-color: #2196F3;
+            background: rgba(33, 150, 243, 0.1);
+        }
+
+        .add-product-icon {
+            font-size: 3rem;
+            color: #2196F3;
+            margin-bottom: 1rem;
+        }
+
+        .add-product h3 {
+            color: #2196F3;
+            margin-bottom: 0.5rem;
+        }
+
+        .add-product p {
+            color: #cccccc;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #cccccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #2196F3;
+        }
+
+        .copyright {
+            color: #888888;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="https://senaisolucoesdigitais.com.br/wp-content/uploads/sites/19/2022/08/Group-1.png" alt="SENAI Soluções Digitais" />
+            </div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#portfolio">Portfólio</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h1>Inovação Digital</h1>
+            <p>Transformamos ideias em soluções tecnológicas revolucionárias. Desenvolvemos softwares que impulsionam o futuro da indústria e dos negócios.</p>
+            <a href="#portfolio" class="cta-button">Explore Nosso Portfólio</a>
+        </div>
+    </section>
+
+    <section class="portfolio" id="portfolio">
+        <div class="section-title">
+            <h2>Nossos Produtos</h2>
+            <p>Conheça as soluções digitais que desenvolvemos para revolucionar diferentes setores da economia</p>
+        </div>
+
+        <div class="products-grid">
+            <!-- Produto Exemplo 1 -->
+            <div class="product-card fade-in">
+                <div class="product-icon">🚀</div>
+                <h3>Sistema de Gestão Industrial</h3>
+                <p>Plataforma completa para controle de produção, estoque e qualidade em tempo real, com dashboards inteligentes e relatórios automatizados.</p>
+                <div class="product-tags">
+                    <span class="tag">Indústria 4.0</span>
+                    <span class="tag">IoT</span>
+                    <span class="tag">Analytics</span>
+                </div>
+                <a href="#" class="product-link">Ver detalhes →</a>
+            </div>
+
+            <!-- Produto Exemplo 2 -->
+            <div class="product-card fade-in">
+                <div class="product-icon">🎯</div>
+                <h3>Plataforma de E-Learning</h3>
+                <p>Sistema avançado de educação digital com inteligência artificial, gamificação e acompanhamento personalizado do progresso dos alunos.</p>
+                <div class="product-tags">
+                    <span class="tag">Educação</span>
+                    <span class="tag">IA</span>
+                    <span class="tag">Mobile</span>
+                </div>
+                <a href="#" class="product-link">Ver detalhes →</a>
+            </div>
+
+            <!-- Produto Exemplo 3 -->
+            <div class="product-card fade-in">
+                <div class="product-icon">⚡</div>
+                <h3>Automação de Processos</h3>
+                <p>Ferramenta de RPA (Robotic Process Automation) que automatiza tarefas repetitivas e otimiza fluxos de trabalho empresariais.</p>
+                <div class="product-tags">
+                    <span class="tag">RPA</span>
+                    <span class="tag">Automação</span>
+                    <span class="tag">Produtividade</span>
+                </div>
+                <a href="#" class="product-link">Ver detalhes →</a>
+            </div>
+
+            <!-- Produto Exemplo 4 -->
+            <div class="product-card fade-in">
+                <div class="product-icon">📊</div>
+                <h3>Business Intelligence Suite</h3>
+                <p>Solução completa de análise de dados com visualizações interativas, machine learning e previsões de mercado para tomada de decisões estratégicas.</p>
+                <div class="product-tags">
+                    <span class="tag">BI</span>
+                    <span class="tag">Data Science</span>
+                    <span class="tag">Machine Learning</span>
+                </div>
+                <a href="#" class="product-link">Ver detalhes →</a>
+            </div>
+
+            <!-- Produto Exemplo 5 -->
+            <div class="product-card fade-in">
+                <div class="product-icon">🔒</div>
+                <h3>Cybersecurity Platform</h3>
+                <p>Sistema integrado de segurança cibernética com monitoramento em tempo real, detecção de ameaças e resposta automatizada a incidentes.</p>
+                <div class="product-tags">
+                    <span class="tag">Segurança</span>
+                    <span class="tag">Monitoramento</span>
+                    <span class="tag">Cloud</span>
+                </div>
+                <a href="#" class="product-link">Ver detalhes →</a>
+            </div>
+
+            <!-- Adicionar Novo Produto -->
+            <div class="add-product" onclick="addNewProduct()">
+                <div class="add-product-icon">+</div>
+                <h3>Adicionar Produto</h3>
+                <p>Clique para adicionar um novo produto ao portfólio</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#sobre">Sobre Nós</a>
+                <a href="#servicos">Serviços</a>
+                <a href="#contato">Contato</a>
+                <a href="#carreira">Carreira</a>
+                <a href="#blog">Blog</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 SENAI Soluções Digitais. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
