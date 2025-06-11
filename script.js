@@ -31,7 +31,6 @@ const observer = new IntersectionObserver((entries) => {
 async function loadProducts() {
     const productsGrid = document.getElementById('products-grid');
     
-    // Limpa os produtos existentes (neste caso, se houver, seriam apenas os carregados dinamicamente)
     productsGrid.querySelectorAll('.product-card').forEach(card => card.remove());
 
     try {
@@ -51,11 +50,10 @@ async function loadProducts() {
                 <div class="product-tags">
                     ${project.tags && project.tags.length > 0 ? project.tags.map(tag => `<span class="tag">${tag.trim()}</span>`).join('') : ''}
                 </div>
-                <a href="${project.url || '#'}" class="product-link">Ver detalhes →</a>
+                <a href="${project.url || '#'}" class="product-link">Ver detalhes →</a> 
             `;
-            productsGrid.appendChild(newCard); // Adiciona ao grid
+            productsGrid.appendChild(newCard);
             
-            // Aplica animação e observa
             newCard.style.opacity = '0';
             newCard.style.transform = 'translateY(30px)';
             newCard.style.transition = 'all 0.6s ease';
@@ -70,7 +68,6 @@ async function loadProducts() {
         errorMessage.style.textAlign = 'center';
         productsGrid.appendChild(errorMessage);
     } 
-    // O bloco finally foi removido se o botão "Adicionar Produto" não estiver mais no HTML
 }
 
 // A função addNewProduct() no frontend não terá um backend para salvar o arquivo MD.
