@@ -156,8 +156,8 @@ function checkInitialUrlForDetail() {
     }
 }
 
-// Event listener para rolar suavemente para as seções ao clicar nos links de navegação do HEADER
-document.querySelectorAll('nav .nav-links a').forEach(anchor => {
+// Event listener para rolar suavemente para as seções ao clicar nos links internos (cabeçalho, hero e rodapé)
+document.querySelectorAll('header a[href^="#"], .hero a[href^="#"], footer a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault(); // Impede a navegação padrão
 

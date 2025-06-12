@@ -1,15 +1,5 @@
 [
   {
-    "name": "SAEP IA",
-    "icon": "🚀",
-    "description": "Aplicação que utiliza IA generativa para auxiliar na criação de itens do Sistema de Avaliação da Educação Profissional e Tecnológica.",
-    "tags": [
-      "Educação",
-      "DN"
-    ],
-    "url": "/sd-landing-page/projects/saep-ia.html"
-  },
-  {
     "name": "SGN",
     "icon": "🚀",
     "description": "Plataforma de Gestão do Negócio. Responsável por gerir toda a educação do SENAI e SESI de Santa Catarina.",
@@ -18,18 +8,7 @@
       "SC",
       "JAVA"
     ],
-    "url": "/sd-landing-page/projects/sgn.html"
-  },
-  {
-    "name": "Habilita IA",
-    "icon": "🚀",
-    "description": "Aplicação que auxilia na criação de cards para diagnóstico do programa Habilita IA, voltado à resolução de gaps nas funções de trabalhadores da indústria.\\nUtiliza consultas a bases externas e regras específicas para gerar os cards de forma precisa e personalizada.",
-    "tags": [
-      "IA",
-      "Python",
-      "Gestão"
-    ],
-    "url": "/sd-landing-page/projects/habilita-ia.html"
+    "url": "/sd-landing-page/projects/sgn/"
   },
   {
     "name": "Chatbot SGN",
@@ -40,7 +19,7 @@
       "Chatbot",
       "IA"
     ],
-    "url": "/sd-landing-page/projects/chatbot-sgn.html"
+    "url": "/sd-landing-page/projects/chatbot-sgn/"
   },
   {
     "name": "Predição de Evasão",
@@ -51,6 +30,39 @@
       "Predição",
       "Educação"
     ],
-    "url": "/sd-landing-page/projects/predição-de-evasão.html"
+    "url": "/sd-landing-page/projects/predicao/"
+  },
+  {
+    "name": "SAEP IA",
+    "icon": "🚀",
+    "description": "Aplicação que utiliza IA generativa para auxiliar na criação de itens do Sistema de Avaliação da Educação Profissional e Tecnológica.",
+    "tags": [
+      "Educação",
+      "DN"
+    ],
+    "url": "/sd-landing-page/projects/saep/"
+  },
+  {
+    "name": "Meu Primeiro Projeto Incrível",
+    "icon": "✨",
+    "description": "Uma solução inovadora de gerenciamento de dados para pequenas empresas.",
+    "tags": [
+      "Gestão",
+      "Cloud",
+      "SaaS"
+    ],
+    "slug": "meu-primeiro-projeto-incrivel",
+    "url": "/sd-landing-page/projects/new-project/"
+  },
+  {
+    "name": "Habilita IA",
+    "icon": "🚀",
+    "description": "Aplicação que auxilia na criação de cards para diagnóstico do programa Habilita IA, voltado à resolução de gaps nas funções de trabalhadores da indústria. Utiliza consultas a bases externas e regras específicas para gerar os cards de forma precisa e personalizada.",
+    "tags": [
+      "IA",
+      "Python",
+      "Gestão"
+    ],
+    "url": "/sd-landing-page/projects/habilita/"
   }
 ]
