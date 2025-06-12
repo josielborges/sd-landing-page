@@ -742,3 +742,66 @@ body.overlay-active {
     border-color: #1565AD;
     box-shadow: 0 5px 15px rgba(21, 101, 173, 0.4);
 }
+
+
+/* --- Estilos para a Seção de Serviços --- */
+
+.services {
+    padding: 5rem 2rem;
+    /* Um fundo sutilmente diferente para criar contraste com as outras seções */
+    background: rgba(10, 10, 20, 0.2); 
+}
+
+.services-grid {
+    display: grid;
+    /* Usando a mesma lógica do portfólio para consistência */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 3rem auto 0;
+}
+
+.service-card {
+    /* Estilo muito similar ao .product-card para manter a identidade visual */
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    background: rgba(33, 150, 243, 0.1);
+    border-color: rgba(33, 150, 243, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.service-icon {
+    /* Reutilizando a classe de ícone do portfólio */
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(45deg, #1565AD, #2196F3);
+    border-radius: 50%; /* Ícones redondos para diferenciar dos projetos */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem; /* Ícone um pouco maior */
+    color: #ffffff;
+}
+
+.service-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
+
+.service-card p {
+    color: #cccccc;
+    line-height: 1.6;
+    font-size: 1rem;
+}
