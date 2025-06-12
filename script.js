@@ -15,11 +15,11 @@ async function showProjectDetail(projectUrl) {
 
         // Injeta o conteúdo HTML do fragmento na div do overlay
         projectDetailContentWrapper.innerHTML = htmlFragment;
-        
+
         // Ativa o overlay e impede a rolagem da página principal
         projectDetailOverlay.classList.add('active');
         document.body.classList.add('overlay-active'); // Adiciona classe ao body
-        
+
         // Rola o conteúdo do overlay para o topo
         projectDetailOverlay.scrollTop = 0;
 
@@ -39,11 +39,11 @@ async function showProjectDetail(projectUrl) {
         projectDetailContentWrapper.innerHTML = `<p style="text-align: center; color: #ff6666;">Não foi possível carregar os detalhes do projeto. Tente novamente mais tarde.</p><div class="back-to-portfolio"><a href="#portfolio" class="cta-button" id="back-to-portfolio-button">← Voltar</a></div>`;
         const backButtonAfterError = projectDetailContentWrapper.querySelector('#back-to-portfolio-button');
         if (backButtonAfterError) {
-             backButtonAfterError.addEventListener('click', (e) => {
+            backButtonAfterError.addEventListener('click', (e) => {
                 e.preventDefault();
                 hideProjectDetail();
                 history.back();
-             });
+            });
         }
         projectDetailOverlay.classList.add('active'); // Garante que o overlay apareça com a mensagem de erro
         document.body.classList.add('overlay-active');
@@ -54,10 +54,10 @@ async function showProjectDetail(projectUrl) {
 function hideProjectDetail() {
     projectDetailOverlay.classList.remove('active');
     document.body.classList.remove('overlay-active'); // Remove a classe do body
-    
+
     // Limpa o conteúdo para não mostrar o projeto anterior da próxima vez
     setTimeout(() => {
-        projectDetailContentWrapper.innerHTML = ''; 
+        projectDetailContentWrapper.innerHTML = '';
     }, 500); // Espera a transição de opacidade acabar
 }
 
@@ -116,14 +116,14 @@ async function loadProducts() {
             button.dataset.tag = tag;
             if (filterContainer) filterContainer.appendChild(button);
         });
-        
+
         // --- LÓGICA DE FILTRAGEM (FIM) ---
 
         // Renderizar todos os cards de projetos
         projects.forEach((project, index) => {
             const newCard = document.createElement('div');
             newCard.className = 'product-card fade-in';
-            
+
             // Adiciona as tags do projeto como um atributo de dados para a filtragem
             if (project.tags && project.tags.length > 0) {
                 newCard.dataset.tags = project.tags.map(t => t.trim()).join(',');
@@ -149,7 +149,7 @@ async function loadProducts() {
                     history.pushState({ projectId: project.name }, project.name, new URL(productLink.href).pathname);
                 });
             }
-            
+
             // Lógica de animação de entrada (mantida)
             newCard.style.opacity = '0';
             newCard.style.transform = 'translateY(30px)';
@@ -163,27 +163,50 @@ async function loadProducts() {
         if (filterContainer) {
             filterContainer.addEventListener('click', (e) => {
                 if (e.target.matches('.filter-btn')) {
+                    // Se o botão clicado já está ativo, não faz nada
+                    if (e.target.classList.contains('active')) {
+                        return;
+                    }
+
                     const selectedTag = e.target.dataset.tag;
 
                     // Atualiza a classe 'active' nos botões
                     filterContainer.querySelector('.active').classList.remove('active');
                     e.target.classList.add('active');
 
-                    // Filtra os cards
+                    // --- NOVA LÓGICA DE ANIMAÇÃO EM DUAS ETAPAS ---
+
+                    // ETAPA 1: Inicia o fade-out em TODOS os cards que estão visíveis.
                     document.querySelectorAll('.product-card').forEach(card => {
-                        const cardTags = card.dataset.tags;
-                        if (selectedTag === 'all' || (cardTags && cardTags.includes(selectedTag))) {
-                            card.style.display = 'block';
-                            setTimeout(() => card.style.opacity = '1', 10); // Fade in
-                        } else {
-                            card.style.opacity = '0'; // Fade out
-                            setTimeout(() => card.style.display = 'none', 400); // Esconde após o fade
+                        // A verificação de 'display' garante que só vamos apagar o que já está na tela
+                        if (card.style.display !== 'none') {
+                            card.style.opacity = '0';
                         }
                     });
+
+                    // ETAPA 2: Espera a animação de fade-out terminar para então reorganizar e revelar.
+                    setTimeout(() => {
+                        document.querySelectorAll('.product-card').forEach(card => {
+                            const cardTags = card.dataset.tags;
+                            const shouldBeVisible = selectedTag === 'all' || (cardTags && cardTags.includes(selectedTag));
+
+                            // Agora sim, atualizamos o layout
+                            if (shouldBeVisible) {
+                                card.style.display = 'block'; // Coloca o card de volta no layout
+                                // Precisamos de um pequeno delay para que o navegador processe o 'display: block'
+                                // antes de iniciar a transição de opacidade.
+                                setTimeout(() => {
+                                    card.style.opacity = '1'; // Inicia a animação de fade-in
+                                }, 10);
+                            } else {
+                                card.style.display = 'none'; // Remove completamente o card do layout
+                            }
+                        });
+                    }, 400); // Este tempo DEVE ser igual à duração da transição no seu CSS (transition: all 0.6s, opacity 0.4s)
                 }
             });
         }
-        
+
         checkInitialUrlForDetail();
 
     } catch (error) {
@@ -200,7 +223,7 @@ function checkInitialUrlForDetail() {
     // Verifica se a URL contém '/projects/' e termina com '.html'
     if (currentPathname.includes('/projects/') && currentPathname.endsWith('.html')) {
         // Usa a URL completa da janela para buscar o conteúdo
-        showProjectDetail(window.location.href); 
+        showProjectDetail(window.location.href);
     }
 }
 
