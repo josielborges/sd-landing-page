@@ -75,7 +75,8 @@ def build_portfolio():
                             
                             # Adiciona a URL da página de detalhes aos dados do portfólio (para o projects.json)
                             # O caminho é relativo a 'dist/'
-                            project_info['url'] = f"projects/{detail_page_filename}"
+                            github_pages_repo_name = "/sd-landing-page" 
+                            project_info['url'] = f"{github_pages_repo_name}/projects/{detail_page_filename}"
                             portfolio_data.append(project_info)
 
                         except yaml.YAMLError as exc:

@@ -3,10 +3,11 @@ const projectDetailOverlay = document.getElementById('project-detail-overlay');
 const projectDetailContentWrapper = projectDetailOverlay.querySelector('.project-detail-content-wrapper');
 
 // Função para exibir o overlay com o conteúdo do projeto
-async function showProjectDetail(projectPath) {
+// projectUrl agora receberá a URL COMPLETA ou relativa à raiz do domínio (ex: /sd-landing-page/projects/...)
+async function showProjectDetail(projectUrl) {
     try {
-        // Assume que projectPath será algo como 'projects/meu-projeto.html'
-        const response = await fetch(projectPath);
+        console.log('Carregando detalhes do projeto:', projectUrl);
+        const response = await fetch(projectUrl); // Fetch diretamente usando a URL fornecida
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -28,8 +29,6 @@ async function showProjectDetail(projectPath) {
             backButton.addEventListener('click', (e) => {
                 e.preventDefault(); // Impede a navegação padrão do link
                 hideProjectDetail();
-                // Retorna ao estado anterior da URL, que deve ser a página principal
-                //history.pushState(null, '', 'index.html#portfolio'); // Opcional: força a âncora
                 history.back(); // Volta para a URL anterior no histórico
             });
         }
@@ -57,7 +56,6 @@ function hideProjectDetail() {
     document.body.classList.remove('overlay-active'); // Remove a classe do body
     
     // Limpa o conteúdo para não mostrar o projeto anterior da próxima vez
-    // (Opcional: você pode remover apenas se a transição não for muito rápida)
     setTimeout(() => {
         projectDetailContentWrapper.innerHTML = ''; 
     }, 500); // Espera a transição de opacidade acabar
@@ -66,14 +64,14 @@ function hideProjectDetail() {
 
 // Handler para o evento popstate (botões de voltar/avançar do navegador)
 window.addEventListener('popstate', (event) => {
-    const currentPath = window.location.pathname;
-    // Se a URL atual não for mais de um projeto (ex: voltou para a home), esconde o detalhe
-    if (!currentPath.includes('/projects/') && currentPath.endsWith('.html') || currentPath.endsWith('/')) {
+    const currentPathname = window.location.pathname; // Ex: /sd-landing-page/projects/meu-projeto.html
+
+    if (currentPathname.includes('/projects/') && currentPathname.endsWith('.html')) {
+        // Se a URL ainda é de um projeto (ex: clicou em 'avançar' depois de voltar)
+        showProjectDetail(window.location.href); // Use a URL completa para buscar
+    } else {
+        // Se a URL não é mais de um projeto (ex: voltou para a home ou outra âncora)
         hideProjectDetail();
-    } else if (currentPath.includes('/projects/') && currentPath.endsWith('.html')) {
-        // Se for uma URL de projeto e ainda estamos nela (ex: forward button)
-        // Isso é importante para que o link direto funcione ou o botão "forward" do navegador
-        showProjectDetail(currentPath.substring(1)); // Remove o '/' inicial para o fetch
     }
 });
 
@@ -82,7 +80,6 @@ window.addEventListener('popstate', (event) => {
 async function loadProducts() {
     const productsGrid = document.getElementById('products-grid');
     
-    // Limpa os produtos existentes (neste caso, se houver, seriam apenas os carregados dinamicamente)
     productsGrid.querySelectorAll('.product-card').forEach(card => card.remove());
 
     try {
@@ -111,13 +108,14 @@ async function loadProducts() {
             if (productLink) {
                 productLink.addEventListener('click', (e) => {
                     e.preventDefault(); // IMPEDE A NAVEGAÇÃO PADRÃO
-                    const fullUrl = productLink.href;
-                    // Extrai o caminho relativo para o fetch e para o history.pushState
-                    const path = new URL(fullUrl).pathname;
-                    showProjectDetail(path.substring(1)); // Remove o '/' inicial, ex: "projects/meu-projeto.html"
+                    
+                    // projectLink.href já deve ser uma URL completa (ex: https://dominio.com/repo/projects/...)
+                    // ou relativa à raiz do domínio (ex: /repo/projects/...)
+                    showProjectDetail(productLink.href); 
                     
                     // Atualiza a URL no histórico do navegador sem recarregar a página
-                    history.pushState({ projectId: project.name }, project.name, path);
+                    // Usamos new URL(productLink.href).pathname para pegar apenas o caminho (ex: /sd-landing-page/projects/...)
+                    history.pushState({ projectId: project.name }, project.name, new URL(productLink.href).pathname);
                 });
             }
 
@@ -127,7 +125,7 @@ async function loadProducts() {
             newCard.style.transition = 'all 0.6s ease';
             newCard.style.transitionDelay = `${index * 0.1}s`;
             // Certifique-se de que 'observer' está definido, se não for usar, remova esta linha
-            if (typeof observer !== 'undefined') {
+            if (typeof observer !== 'undefined') { // O observer foi definido no seu script completo
                 observer.observe(newCard);
             }
         });
@@ -149,10 +147,12 @@ async function loadProducts() {
 
 // Função para verificar se a URL inicial é uma página de detalhes de projeto (para links diretos ou refresh)
 function checkInitialUrlForDetail() {
-    const path = window.location.pathname;
-    // Verifica se a URL é de uma página de detalhes (ex: /projects/meu-projeto.html)
-    if (path.includes('/projects/') && path.endsWith('.html')) {
-        showProjectDetail(path.substring(1)); // Remove o '/' inicial para o fetch
+    const currentPathname = window.location.pathname; // Ex: /sd-landing-page/projects/meu-projeto.html
+
+    // Verifica se a URL contém '/projects/' e termina com '.html'
+    if (currentPathname.includes('/projects/') && currentPathname.endsWith('.html')) {
+        // Usa a URL completa da janela para buscar o conteúdo
+        showProjectDetail(window.location.href); 
     }
 }
 
@@ -194,7 +194,7 @@ window.addEventListener('scroll', () => {
 });
 
 // O Intersection Observer (se você o tiver)
-// Se você não o tiver, remova o 'if (typeof observer !== 'undefined')' e a linha que usa 'observer.observe(newCard);'
+// Mantenha esta definição, pois é usada no loadProducts
 const observerOptions = {
     root: null,
     rootMargin: '0px',
