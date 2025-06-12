@@ -192,9 +192,10 @@ nav {
 
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, 350px);
     gap: 2rem;
     margin-top: 3rem;
+    justify-content: center;
 }
 
 .product-card {
@@ -702,4 +703,42 @@ footer {
 /* Garante que o corpo da página principal não role quando o overlay estiver ativo */
 body.overlay-active {
     overflow: hidden;
+}
+
+
+/* --- Estilos para os Botões de Filtro do Portfólio --- */
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Permite que os botões quebrem a linha em telas menores */
+    gap: 1rem;
+    margin-bottom: 3rem; /* Espaço entre os filtros e a grade de projetos */
+}
+
+.filter-btn {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px; /* Botões arredondados */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-btn:hover {
+    background-color: rgba(33, 150, 243, 0.3); /* Azul SENAI com transparência */
+    border-color: #2196F3;
+    transform: translateY(-2px);
+}
+
+/* Estilo para o botão que está ativo/selecionado */
+.filter-btn.active {
+    background: linear-gradient(45deg, #1565AD, #2196F3);
+    color: #ffffff;
+    border-color: #1565AD;
+    box-shadow: 0 5px 15px rgba(21, 101, 173, 0.4);
 }

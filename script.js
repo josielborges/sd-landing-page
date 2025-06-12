@@ -79,19 +79,56 @@ window.addEventListener('popstate', (event) => {
 // Função para carregar produtos do arquivo JSON gerado
 async function loadProducts() {
     const productsGrid = document.getElementById('products-grid');
-    
-    productsGrid.querySelectorAll('.product-card').forEach(card => card.remove());
+    const filterContainer = document.getElementById('filter-container'); // Pega o container dos filtros
+
+    productsGrid.innerHTML = ''; // Limpa o grid
+    if (filterContainer) filterContainer.innerHTML = ''; // Limpa os filtros antigos
 
     try {
-        const response = await fetch('projects.json'); 
+        const response = await fetch('projects.json');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const projects = await response.json();
 
+        // --- LÓGICA DE FILTRAGEM (INÍCIO) ---
+
+        // 1. Coletar todas as tags únicas
+        const allTags = new Set();
+        projects.forEach(project => {
+            if (project.tags && project.tags.length > 0) {
+                project.tags.forEach(tag => allTags.add(tag.trim()));
+            }
+        });
+
+        // 2. Criar e adicionar o botão "Todos"
+        const allButton = document.createElement('button');
+        allButton.className = 'filter-btn active'; // O botão "Todos" começa ativo
+        allButton.textContent = 'Todos';
+        allButton.dataset.tag = 'all';
+        if (filterContainer) filterContainer.appendChild(allButton);
+
+        // 3. Criar e adicionar um botão para cada tag única
+        allTags.forEach(tag => {
+            const button = document.createElement('button');
+            button.className = 'filter-btn';
+            button.textContent = tag;
+            button.dataset.tag = tag;
+            if (filterContainer) filterContainer.appendChild(button);
+        });
+        
+        // --- LÓGICA DE FILTRAGEM (FIM) ---
+
+        // Renderizar todos os cards de projetos
         projects.forEach((project, index) => {
             const newCard = document.createElement('div');
             newCard.className = 'product-card fade-in';
+            
+            // Adiciona as tags do projeto como um atributo de dados para a filtragem
+            if (project.tags && project.tags.length > 0) {
+                newCard.dataset.tags = project.tags.map(t => t.trim()).join(',');
+            }
+
             newCard.innerHTML = `
                 <div class="product-icon">${project.icon || '💡'}</div>
                 <h3>${project.name}</h3>
@@ -99,49 +136,60 @@ async function loadProducts() {
                 <div class="product-tags">
                     ${project.tags && project.tags.length > 0 ? project.tags.map(tag => `<span class="tag">${tag.trim()}</span>`).join('') : ''}
                 </div>
-                <a href="${project.url || '#'}" class="product-link">Ver detalhes →</a> 
+                <a href="${project.url || '#'}" class="product-link">Ver detalhes →</a>
             `;
             productsGrid.appendChild(newCard);
-            
-            // Adiciona um event listener para o clique no link do produto
+
+            // Adiciona o listener para o clique no link (lógica de overlay)
             const productLink = newCard.querySelector('.product-link');
-            if (productLink) {
+            if (productLink && project.url) {
                 productLink.addEventListener('click', (e) => {
-                    e.preventDefault(); // IMPEDE A NAVEGAÇÃO PADRÃO
-                    
-                    // projectLink.href já deve ser uma URL completa (ex: https://dominio.com/repo/projects/...)
-                    // ou relativa à raiz do domínio (ex: /repo/projects/...)
-                    showProjectDetail(productLink.href); 
-                    
-                    // Atualiza a URL no histórico do navegador sem recarregar a página
-                    // Usamos new URL(productLink.href).pathname para pegar apenas o caminho (ex: /sd-landing-page/projects/...)
+                    e.preventDefault();
+                    showProjectDetail(productLink.href);
                     history.pushState({ projectId: project.name }, project.name, new URL(productLink.href).pathname);
                 });
             }
-
-            // Aplica animação e observa (mantido)
+            
+            // Lógica de animação de entrada (mantida)
             newCard.style.opacity = '0';
             newCard.style.transform = 'translateY(30px)';
-            newCard.style.transition = 'all 0.6s ease';
-            newCard.style.transitionDelay = `${index * 0.1}s`;
-            // Certifique-se de que 'observer' está definido, se não for usar, remova esta linha
-            if (typeof observer !== 'undefined') { // O observer foi definido no seu script completo
+            newCard.style.transition = 'all 0.6s ease, opacity 0.4s ease'; // Adiciona transição de opacidade
+            if (typeof observer !== 'undefined') {
                 observer.observe(newCard);
             }
         });
 
-        // Chama a função para verificar a URL na carga inicial para links diretos para detalhes
+        // Adicionar event listeners aos botões de filtro
+        if (filterContainer) {
+            filterContainer.addEventListener('click', (e) => {
+                if (e.target.matches('.filter-btn')) {
+                    const selectedTag = e.target.dataset.tag;
+
+                    // Atualiza a classe 'active' nos botões
+                    filterContainer.querySelector('.active').classList.remove('active');
+                    e.target.classList.add('active');
+
+                    // Filtra os cards
+                    document.querySelectorAll('.product-card').forEach(card => {
+                        const cardTags = card.dataset.tags;
+                        if (selectedTag === 'all' || (cardTags && cardTags.includes(selectedTag))) {
+                            card.style.display = 'block';
+                            setTimeout(() => card.style.opacity = '1', 10); // Fade in
+                        } else {
+                            card.style.opacity = '0'; // Fade out
+                            setTimeout(() => card.style.display = 'none', 400); // Esconde após o fade
+                        }
+                    });
+                }
+            });
+        }
+        
         checkInitialUrlForDetail();
 
     } catch (error) {
         console.error('Falha ao carregar produtos:', error);
-        // Exiba uma mensagem para o usuário ou logue o erro
-        const errorMessage = document.createElement('p');
-        errorMessage.textContent = 'Não foi possível carregar os produtos. Tente novamente mais tarde.';
-        errorMessage.style.color = '#ff6666';
-        errorMessage.style.textAlign = 'center';
-        productsGrid.appendChild(errorMessage);
-    } 
+        productsGrid.innerHTML = '<p style="text-align: center; color: #ff6666;">Não foi possível carregar os produtos. Tente novamente mais tarde.</p>';
+    }
 }
 
 
