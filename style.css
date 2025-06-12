@@ -392,11 +392,11 @@ footer {
     }
 }
 
-/* about section */
+/* about section - MELHORADO */
 .about {
     padding: 80px 20px;
-    background: #0a0a0a;
-    /* Fundo mais escuro para contraste */
+    /* Fundo mais claro para contrastar com as seções adjacentes, mas ainda dentro do tema */
+    background: #11223a; /* Um tom de azul marinho mais vibrante */
     text-align: center;
 }
 
@@ -406,7 +406,7 @@ footer {
     line-height: 1.8;
     font-size: 1.1em;
     text-align: justify;
-    /* ou 'center' se preferir */
+    color: #e0e0e0; /* Mantém a cor do texto para boa leitura */
 }
 
 .about-content p {
@@ -416,44 +416,78 @@ footer {
 .about-content h3 {
     margin-top: 40px;
     margin-bottom: 20px;
-    color: #1565AD;
-    /* Cor de destaque */
+    color: #1565AD; /* Cor de destaque (azul SENAI) */
+    font-size: 1.8em; /* Título "Conecte-se Conosco" um pouco maior */
+    width: 100%;
 }
 
+/* social-links - BOTÕES REFORMULADOS */
 .social-links {
     margin-top: 30px;
     display: flex;
     justify-content: center;
-    gap: 25px;
-    /* Espaçamento entre os links */
-    flex-wrap: wrap;
-    /* Para quebrar linha em telas menores */
+    gap: 25px; /* Espaçamento entre os botões */
+    flex-wrap: wrap; /* Garante que quebrem a linha em telas pequenas */
+    
+
 }
 
+/* Estilo base para todos os botões de redes sociais */
 .social-links a {
-    color: #ffffff;
     text-decoration: none;
     font-size: 1.1em;
-    padding: 10px 15px;
-    border: 1px solid #1565AD;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-    display: flex;
-    /* Para alinhar ícone e texto */
+    padding: 12px 20px; /* Aumenta o preenchimento interno */
+    border-radius: 8px; /* Cantos mais arredondados */
+    transition: all 0.3s ease; /* Transição suave para hover */
+    display: flex; /* Para alinhar ícone e texto */
     align-items: center;
-    gap: 8px;
-    /* Espaçamento entre ícone e texto */
-}
-
-.social-links a:hover {
-    background-color: #1565AD;
-    color: #ffffff;
-    transform: translateY(-5px);
-    /* Efeito de elevação */
+    gap: 10px; /* Espaçamento entre ícone e texto */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra sutil para profundidade */
+    font-weight: 600; /* Deixa o texto um pouco mais forte */
+    height: 80px;
 }
 
 .social-links a i {
-    font-size: 1.3em;
+    font-size: 1.5em; /* Aumenta o tamanho dos ícones */
+}
+
+/* Estilos específicos para o LinkedIn */
+.social-links a[aria-label="LinkedIn"] {
+    background-color: #0077B5; /* Azul do LinkedIn */
+    color: #ffffff; /* Texto branco */
+}
+
+.social-links a[aria-label="LinkedIn"]:hover {
+    background-color: #005f91; /* Azul mais escuro no hover */
+    transform: translateY(-3px); /* Efeito de elevação */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra mais forte no hover */
+}
+
+/* Estilos específicos para o Instagram */
+.social-links a[aria-label="Instagram"] {
+    /* Gradiente do Instagram - um pouco mais complexo, mas muito legal */
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: #ffffff;
+    border: none; /* Não precisa de borda com o gradiente */
+}
+
+.social-links a[aria-label="Instagram"]:hover {
+    /* Pequena variação no gradiente no hover */
+    background: linear-gradient(45deg, #f3a04f 0%, #eb7952 25%, #e03c58 50%, #d43477 75%, #c52994 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilos específicos para o Facebook */
+.social-links a[aria-label="Facebook"] {
+    background-color: #1877F2; /* Azul do Facebook */
+    color: #ffffff;
+}
+
+.social-links a[aria-label="Facebook"]:hover {
+    background-color: #145cb3; /* Azul mais escuro no hover */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* contact section (básico) */
