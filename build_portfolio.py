@@ -2,91 +2,88 @@ import os
 import json
 import yaml
 import shutil
-import markdown # Importe a biblioteca markdown
+import markdown
 
 def build_portfolio():
     projects_dir = 'projects'
     output_dir = 'dist'
     output_json_file = os.path.join(output_dir, 'projects.json')
-    detail_pages_output_dir = os.path.join(output_dir, 'projects') # Nova pasta para páginas de detalhes
-    detail_template_file = '_project_detail_template.html' # Arquivo de template
+    detail_pages_output_dir = os.path.join(output_dir, 'projects')
+    detail_template_file = '_project_detail_template.html'
 
     portfolio_data = []
 
-    # Garante que os diretórios de saída existam
     os.makedirs(output_dir, exist_ok=True)
-    os.makedirs(detail_pages_output_dir, exist_ok=True) # Cria a pasta para os detalhes
+    os.makedirs(detail_pages_output_dir, exist_ok=True)
+
+    try:
+        with open(detail_template_file, 'r', encoding='utf-8') as f:
+            detail_template_content = f.read()
+    except FileNotFoundError:
+        print(f"Erro: O arquivo de template '{detail_template_file}' não foi encontrado.")
+        return
 
     if not os.path.exists(projects_dir):
         print(f"Erro: O diretório '{projects_dir}' não foi encontrado.")
         return
 
-    # Carrega o template da página de detalhes
-    try:
-        with open(detail_template_file, 'r', encoding='utf-8') as f:
-            detail_template_content = f.read()
-    except FileNotFoundError:
-        print(f"Erro: O arquivo de template '{detail_template_file}' não foi encontrado. Por favor, crie-o na raiz do projeto.")
-        return
+    # --- LÓGICA PRINCIPAL MODIFICADA ---
+    # Itera sobre os subdiretórios na pasta 'projects'
+    for project_slug in os.listdir(projects_dir):
+        project_path = os.path.join(projects_dir, project_slug)
 
-    for filename in os.listdir(projects_dir):
-        if filename.endswith('.md'):
-            filepath = os.path.join(projects_dir, filename)
-            with open(filepath, 'r', encoding='utf-8') as f:
-                content = f.read()
+        # Verifica se é um diretório
+        if os.path.isdir(project_path):
+            md_file_path = os.path.join(project_path, 'index.md')
 
-                # Divide o front matter (YAML) do conteúdo Markdown do corpo
+            # Verifica se o arquivo index.md existe
+            if os.path.exists(md_file_path):
+                with open(md_file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+
                 if content.startswith('---'):
                     parts = content.split('---', 2)
                     if len(parts) > 2:
                         yaml_str = parts[1].strip()
-                        markdown_body = parts[2].strip() # Conteúdo Markdown após o front matter
+                        markdown_body = parts[2].strip()
                         try:
                             project_info = yaml.safe_load(yaml_str)
                             
-                            # Converte o conteúdo Markdown do corpo para HTML
-                            # Usamos extensões para melhor suporte (tabelas, blocos de código, atributos de imagem, quebras de linha)
+                            # Cria o diretório de saída para este projeto específico
+                            output_project_dir = os.path.join(detail_pages_output_dir, project_slug)
+                            os.makedirs(output_project_dir, exist_ok=True)
+                            
+                            # Converte o corpo do Markdown para HTML
                             project_html_content = markdown.markdown(markdown_body, extensions=['extra', 'attr_list', 'nl2br'])
-
-                            # Cria um "slug" (nome amigável para URL) para o arquivo da página de detalhes
-                            # Preferimos usar 'slug' do YAML se existir, senão, geramos a partir do nome
-                            slug = project_info.get('slug', project_info['name'].lower())
-                            # Remove caracteres não-alfanuméricos e espaços, substitui por hífens
-                            slug = ''.join(c if c.isalnum() else '-' for c in slug).replace('--', '-').strip('-')
                             
-                            detail_page_filename = f"{slug}.html"
-                            detail_page_path = os.path.join(detail_pages_output_dir, detail_page_filename)
-                            
-                            # Preenche o template HTML com os dados do projeto
+                            # Preenche o template
                             rendered_detail_page = detail_template_content.replace('{{ PROJECT_TITLE }}', project_info.get('name', 'Detalhes do Projeto'))
                             rendered_detail_page = rendered_detail_page.replace('{{ PROJECT_ICON }}', project_info.get('icon', '💡'))
                             rendered_detail_page = rendered_detail_page.replace('{{ PROJECT_DESCRIPTION }}', project_info.get('description', ''))
-                            
-                            # Para metatags, junta as tags com vírgula.
-                            tags_for_meta = ', '.join(project_info.get('tags', []))
-                            rendered_detail_page = rendered_detail_page.replace('{{ PROJECT_TAGS }}', tags_for_meta)
-                            
-                            # Insere o conteúdo HTML do Markdown no template
                             rendered_detail_page = rendered_detail_page.replace('{{ PROJECT_FULL_CONTENT_HTML }}', project_html_content)
                             
-                            # Escreve o arquivo HTML da página de detalhes
-                            with open(detail_page_path, 'w', encoding='utf-8') as outfile:
+                            # Salva o arquivo index.html do projeto
+                            output_html_path = os.path.join(output_project_dir, 'index.html')
+                            with open(output_html_path, 'w', encoding='utf-8') as outfile:
                                 outfile.write(rendered_detail_page)
-                            
-                            # Adiciona a URL da página de detalhes aos dados do portfólio (para o projects.json)
-                            # O caminho é relativo a 'dist/'
-                            github_pages_repo_name = "/sd-landing-page" 
-                            project_info['url'] = f"{github_pages_repo_name}/projects/{detail_page_filename}"
+
+                            # Copia todos os outros arquivos (imagens, etc.) da pasta do projeto
+                            for item in os.listdir(project_path):
+                                if item != 'index.md':
+                                    source_item = os.path.join(project_path, item)
+                                    dest_item = os.path.join(output_project_dir, item)
+                                    if os.path.isfile(source_item):
+                                        shutil.copy2(source_item, dest_item)
+
+                            # Adiciona a URL correta (apontando para o diretório)
+                            github_pages_repo_name = "/sd-landing-page"
+                            project_info['url'] = f"{github_pages_repo_name}/projects/{project_slug}/"
                             portfolio_data.append(project_info)
 
                         except yaml.YAMLError as exc:
-                            print(f"Erro ao parsear YAML em {filename}: {exc}")
+                            print(f"Erro ao parsear YAML em {md_file_path}: {exc}")
                         except KeyError:
-                            print(f"Aviso: {filename} não possui um campo 'name' no front matter. Ignorando.")
-                    else:
-                        print(f"Aviso: {filename} não tem YAML front matter formatado corretamente.")
-                else:
-                    print(f"Aviso: {filename} não tem YAML front matter. Ignorando.")
+                            print(f"Aviso: {md_file_path} não possui um campo 'name'. Ignorando.")
 
     # Gera o projects.json com as URLs atualizadas
     with open(output_json_file, 'w', encoding='utf-8') as f:
@@ -94,7 +91,7 @@ def build_portfolio():
 
     print(f"Portfólio JSON gerado com sucesso em '{output_json_file}' com {len(portfolio_data)} projetos.")
 
-    # Copia os arquivos estáticos para o diretório de saída 'dist'
+    # Copia os arquivos estáticos da raiz para o diretório 'dist'
     static_files_to_copy = ['index.html', 'style.css', 'script.js']
     for sf in static_files_to_copy:
         source_path = sf
@@ -102,10 +99,8 @@ def build_portfolio():
         if os.path.exists(source_path):
             shutil.copy(source_path, destination_path)
             print(f"Copiado: {source_path} para {output_dir}")
-        else:
-            print(f"Aviso: Arquivo estático '{sf}' não encontrado para cópia. Verifique o caminho.")
 
-    print(f"Páginas de detalhes geradas em '{detail_pages_output_dir}'.")
+    print(f"Páginas de detalhes e assets dos projetos gerados em '{detail_pages_output_dir}'.")
 
 
 if __name__ == '__main__':
