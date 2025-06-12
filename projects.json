@@ -7,7 +7,7 @@
       "Educação",
       "DN"
     ],
-    "url": null
+    "url": "projects/saep-ia.html"
   },
   {
     "name": "SGN",
@@ -18,7 +18,7 @@
       "SC",
       "JAVA"
     ],
-    "url": null
+    "url": "projects/sgn.html"
   },
   {
     "name": "Habilita IA",
@@ -29,7 +29,7 @@
       "Python",
       "Gestão"
     ],
-    "url": null
+    "url": "projects/habilita-ia.html"
   },
   {
     "name": "Chatbot SGN",
@@ -40,7 +40,7 @@
       "Chatbot",
       "IA"
     ],
-    "url": null
+    "url": "projects/chatbot-sgn.html"
   },
   {
     "name": "Predição de Evasão",
@@ -51,6 +51,6 @@
       "Predição",
       "Educação"
     ],
-    "url": null
+    "url": "projects/predição-de-evasão.html"
   }
 ]

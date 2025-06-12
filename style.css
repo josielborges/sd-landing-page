@@ -482,3 +482,190 @@ footer {
 .contact-content a:hover {
     text-decoration: underline;
 }
+
+/* Estilos para a Página de Detalhes do Projeto */
+.project-detail {
+    padding: 20px 0px;
+    /* background: #0a0a0a; Fundo escuro como nas outras seções */
+    min-height: 80vh; /* Garante que a seção ocupe pelo menos 80% da altura da tela */
+    color: #ffffff;
+}
+
+.project-detail .container {
+    max-width: 960px; /* Largura máxima para o conteúdo do projeto */
+    margin: 0 auto; /* Centraliza */
+    padding: 30px;
+    background-color: #1a2b47; /* Cor de fundo para o card de detalhes */
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.project-detail-title {
+    font-size: 2.8em;
+    margin-bottom: 25px;
+    color: #1565AD; /* Cor de destaque do SENAI */
+    text-align: center;
+    line-height: 1.2;
+}
+
+.project-detail-description {
+    font-size: 1.3em;
+    color: #cccccc;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.project-content {
+    line-height: 1.9;
+    font-size: 1.15em;
+    text-align: justify; /* Justifica o texto para melhor leitura */
+    color: #e0e0e0;
+}
+
+/* Estilos para elementos Markdown dentro do .project-content */
+.project-content h1,
+.project-content h2,
+.project-content h3,
+.project-content h4,
+.project-content h5,
+.project-content h6 {
+    color: #1565AD; /* Cor de destaque para os títulos do conteúdo */
+    margin-top: 35px;
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.project-content h1 { font-size: 2.2em; }
+.project-content h2 { font-size: 1.8em; }
+.project-content h3 { font-size: 1.5em; }
+
+.project-content p {
+    margin-bottom: 18px;
+}
+
+.project-content img {
+    max-width: 100%; /* Imagens responsivas */
+    height: auto;
+    display: block; /* Garante que a imagem ocupe sua própria linha */
+    margin: 30px auto; /* Centraliza a imagem e adiciona margem */
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.project-content ul,
+.project-content ol {
+    margin-left: 30px;
+    margin-bottom: 20px;
+    list-style-type: disc; /* ou circle, square para ul; decimal para ol */
+}
+
+.project-content li {
+    margin-bottom: 10px;
+}
+
+.project-content a {
+    color: #66ccff; /* Cor de link para o conteúdo */
+    text-decoration: underline;
+}
+
+.project-content a:hover {
+    text-decoration: none;
+}
+
+/* Estilos para blocos de código */
+.project-content pre {
+    background-color: #0d1117; /* Fundo escuro para blocos de código */
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto; /* Adiciona scroll horizontal se o código for muito longo */
+    margin-bottom: 20px;
+    font-family: 'Fira Code', 'Cascadia Code', monospace; /* Fonte monoespaçada */
+    font-size: 0.95em;
+}
+
+.project-content code {
+    color: #c9d1d9;
+}
+
+/* Estilos para tabelas */
+.project-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.project-content th,
+.project-content td {
+    border: 1px solid #30363d;
+    padding: 10px;
+    text-align: left;
+}
+
+.project-content th {
+    background-color: #1565AD;
+    color: #ffffff;
+}
+
+/* Botão voltar ao portfólio */
+.back-to-portfolio {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.back-to-portfolio .cta-button {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #1565AD;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-size: 1.1em;
+}
+
+.back-to-portfolio .cta-button:hover {
+    background-color: #0d4b8a;
+    transform: translateY(-3px);
+}
+
+
+/* Estilos para o Overlay de Detalhes do Projeto (Nova Funcionalidade) */
+.project-detail-overlay {
+    position: fixed; /* Fixa na tela */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); /* Fundo escuro semitransparente */
+    z-index: 1000; /* Garante que fique acima de tudo */
+    display: none; /* Oculto por padrão */
+    overflow-y: auto; /* Permite rolagem dentro do overlay se o conteúdo for muito grande */
+    scroll-behavior: smooth; /* Rolagem suave dentro do overlay */
+    opacity: 0; /* Começa transparente para a transição */
+    transition: opacity 0.5s ease-in-out; /* Transição de opacidade */
+}
+
+.project-detail-overlay.active {
+    display: block; /* Torna visível */
+    opacity: 1; /* Totalmente visível */
+}
+
+.project-detail-content-wrapper {
+    max-width: 1000px; /* Largura máxima do conteúdo dentro do overlay */
+    margin: 50px auto; /* Margem superior/inferior e centraliza */
+    padding: 20px;
+    background-color: #00000040; /* Fundo do container interno, combinando com o tema */
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); /* Sombra para destaque */
+    transform: translateY(20px); /* Efeito de entrada: começa um pouco abaixo */
+    transition: transform 0.5s ease-in-out; /* Transição para o efeito de entrada */
+}
+
+.project-detail-overlay.active .project-detail-content-wrapper {
+    transform: translateY(0); /* Move para a posição final quando ativo */
+}
+
+/* Garante que o corpo da página principal não role quando o overlay estiver ativo */
+body.overlay-active {
+    overflow: hidden;
+}
