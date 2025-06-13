@@ -805,3 +805,23 @@ body.overlay-active {
     line-height: 1.6;
     font-size: 1rem;
 }
+
+/* --- Estilos para Vídeos Responsivos (YouTube, Vimeo, etc.) --- */
+.video-responsive {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%; /* Proporção de 16:9 (altura / largura) */
+    margin: 30px auto; /* Centraliza e adiciona margem, como nas imagens */
+    border-radius: 8px; /* Cantos arredondados */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.video-responsive iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0; /* Remove a borda padrão do iframe */
+}

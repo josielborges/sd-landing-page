@@ -16,6 +16,9 @@ async function showProjectDetail(projectUrl) {
         // Injeta o conteúdo HTML do fragmento na div do overlay
         projectDetailContentWrapper.innerHTML = htmlFragment;
 
+        // Automaticamente torna os vídeos do YouTube responsivos
+        wrapYouTubeVideos(projectDetailContentWrapper);
+
         // Ativa o overlay e impede a rolagem da página principal
         projectDetailOverlay.classList.add('active');
         document.body.classList.add('overlay-active'); // Adiciona classe ao body
@@ -287,3 +290,24 @@ const observer = new IntersectionObserver((entries, observer) => {
 document.addEventListener('DOMContentLoaded', () => {
     loadProducts();
 });
+
+
+// Encontra vídeos do YouTube e os torna responsivos automaticamente
+function wrapYouTubeVideos(container) {
+    // Encontra todos os iframes cuja URL seja do YouTube
+    const iframes = container.querySelectorAll('iframe[src*="youtube.com"], iframe[src*="youtu.be"]');
+
+    iframes.forEach(iframe => {
+        // Verifica se o iframe já não foi "embrulhado" para evitar duplicatas
+        if (!iframe.parentElement.classList.contains('video-responsive')) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'video-responsive';
+
+            // Insere o wrapper no lugar do iframe
+            iframe.parentNode.insertBefore(wrapper, iframe);
+
+            // Move o iframe para dentro do wrapper
+            wrapper.appendChild(iframe);
+        }
+    });
+}
