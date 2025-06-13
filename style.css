@@ -825,3 +825,14 @@ body.overlay-active {
     height: 100%;
     border: 0; /* Remove a borda padrão do iframe */
 }
+
+/* --- Estilos para o Rodapé (Adicionando o Logo) --- */
+.footer-logo {
+    max-width: 180px; /* Define a largura máxima do logo */
+    margin: 0 auto 2rem; /* Centraliza o logo e adiciona um espaço abaixo dele */
+}
+
+.footer-logo img {
+    width: 100%; /* Garante que o logo seja responsivo dentro do container */
+    height: auto;
+}
