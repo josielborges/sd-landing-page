@@ -197,18 +197,32 @@ projectDetailOverlay.addEventListener('click', function(event) {
 });
 
 // Listener para rolagem suave de âncoras internas
-document.querySelectorAll('header a[href^="#"], footer a[href^="#"]').forEach(anchor => {
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
-        // IGNORA os links de projeto que agora usam hash
-        if (href.startsWith('#/')) return;
-        
-        const targetElement = document.querySelector(href);
-        if (targetElement) {
-            e.preventDefault();
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-            // Remove o hash da URL para links de âncora
-            history.pushState("", document.title, window.location.pathname + window.location.search);
+
+        // 1. Ignora os links de projeto para não interferir com a lógica de roteamento
+        if (href.startsWith('#/')) {
+            return;
+        }
+
+        // 2. Procede com a rolagem suave para âncoras internas (ex: #portfolio, #sobre)
+        // Garante que o href não é apenas um "#" vazio
+        if (href.length > 1) {
+            const targetElement = document.querySelector(href);
+            
+            if (targetElement) {
+                e.preventDefault(); // Previne o "salto" imediato do navegador
+
+                // Executa a animação de rolagem suave
+                targetElement.scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // Atualiza a URL de forma sutil, sem criar uma nova entrada no histórico
+                // Isso evita comportamentos estranhos com o botão "voltar" do navegador
+                history.replaceState(null, null, href);
+            }
         }
     });
 });
