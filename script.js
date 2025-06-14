@@ -64,6 +64,25 @@ function hideProjectDetail() {
     }, 500); // Espera a transição de opacidade acabar
 }
 
+// Event listener para fechar o overlay ao clicar no fundo
+projectDetailOverlay.addEventListener('click', function(event) {
+    // A mágica está aqui: verificamos se o alvo do clique (event.target)
+    // é o próprio elemento do overlay (o fundo escuro).
+    if (event.target === projectDetailOverlay) {
+        
+        // Chamamos a mesma função que o botão "Voltar" usa
+        hideProjectDetail();
+
+        // Opcional, mas recomendado:
+        // Isso atualiza a URL, removendo o caminho do projeto e fazendo
+        // o botão "voltar" do navegador funcionar como esperado.
+        // Se a URL for /projeto-x, ele volta para a página principal.
+        if (window.location.pathname.includes('/projects/')) {
+             window.history.back();
+        }
+    }
+});
+
 
 // Handler para o evento popstate (botões de voltar/avançar do navegador)
 window.addEventListener('popstate', (event) => {
