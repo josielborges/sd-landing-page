@@ -6,15 +6,18 @@ import markdown
 
 def build_portfolio():
     projects_dir = 'projects'
+    assets_dir = 'assets'
     output_dir = 'dist'
     output_json_file = os.path.join(output_dir, 'projects.json')
     detail_pages_output_dir = os.path.join(output_dir, 'projects')
+    dis_assets_dir = os.path.join(output_dir, 'assets')
     detail_template_file = '_project_detail_template.html'
 
     portfolio_data = []
 
     os.makedirs(output_dir, exist_ok=True)
     os.makedirs(detail_pages_output_dir, exist_ok=True)
+    os.makedirs(dis_assets_dir, exist_ok=True)
 
     try:
         with open(detail_template_file, 'r', encoding='utf-8') as f:
@@ -99,6 +102,15 @@ def build_portfolio():
         if os.path.exists(source_path):
             shutil.copy(source_path, destination_path)
             print(f"Copiado: {source_path} para {output_dir}")
+
+    # Copia os assets para o diretório de assets dos detalhes dos projetos
+    if os.path.exists(assets_dir):
+        for asset in os.listdir(assets_dir):
+            source_asset_path = os.path.join(assets_dir, asset)
+            destination_asset_path = os.path.join(dis_assets_dir, asset)
+            if os.path.isfile(source_asset_path):
+                shutil.copy2(source_asset_path, destination_asset_path)
+                print(f"Copiado: {source_asset_path} para {dis_assets_dir}")
 
     print(f"Páginas de detalhes e assets dos projetos gerados em '{detail_pages_output_dir}'.")
 
