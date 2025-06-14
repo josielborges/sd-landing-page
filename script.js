@@ -3,6 +3,7 @@
 // ===================================================================
 
 // --- Variáveis Globais ---
+const REPO_NAME = '/sd-landing-page';
 const projectDetailOverlay = document.getElementById('project-detail-overlay');
 const projectDetailContentWrapper = projectDetailOverlay.querySelector('.project-detail-content-wrapper');
 const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
@@ -20,19 +21,23 @@ const observer = new IntersectionObserver((entries, observer) => {
 // --- Funções Principais do Overlay ---
 
 async function showProjectDetail(projectHtmlPath) {
+    // CORREÇÃO: Usamos a variável REPO_NAME para montar a URL de busca correta
+    const finalFetchUrl = REPO_NAME + projectHtmlPath;
+    
     try {
         const bodyHasScrollbar = window.innerHeight < document.body.scrollHeight;
         if (bodyHasScrollbar) {
-            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-            document.body.style.paddingRight = `${scrollbarWidth}px`;
+            const scrollbarWidth = '12px';
+            document.body.style.paddingRight = scrollbarWidth;
+            document.querySelector('header').style.paddingRight = scrollbarWidth;
         }
 
-        const response = await fetch(projectHtmlPath);
+        console.log('Carregando detalhes do projeto de:', finalFetchUrl);
+        const response = await fetch(finalFetchUrl);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const htmlFragment = await response.text();
 
         projectDetailContentWrapper.innerHTML = htmlFragment;
-        wrapYouTubeVideos(projectDetailContentWrapper);
         
         projectDetailOverlay.classList.add('active');
         document.body.classList.add('overlay-active'); 
@@ -42,8 +47,7 @@ async function showProjectDetail(projectHtmlPath) {
         if (backButton) {
             backButton.addEventListener('click', (e) => {
                 e.preventDefault();
-                // --- MUDANÇA AQUI ---
-                window.location.hash = 'portfolio'; // Aponta para a seção do portfólio
+                window.location.hash = 'portfolio';
             });
         }
     } catch (error) {
