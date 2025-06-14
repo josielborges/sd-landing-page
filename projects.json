@@ -7,6 +7,9 @@
       "Educação",
       "Gestão"
     ],
+    "client": "DR SESI/SENAI",
+    "year": "2012-2025",
+    "live_url": "https://sc.senai.br/sgn",
     "url": "/sd-landing-page/projects/sgn/"
   },
   {
@@ -18,6 +21,9 @@
       "Chatbot",
       "IA"
     ],
+    "client": "DR SENAI",
+    "year": "2012 - 2025",
+    "live_url": "https://sc.senai.br/sgn",
     "url": "/sd-landing-page/projects/chatbot-sgn/"
   },
   {
@@ -29,6 +35,9 @@
       "Predição",
       "Educação"
     ],
+    "client": "DR SESI/SENAI",
+    "year": 2025,
+    "live_url": "https://sc.senai.br/sgn",
     "url": "/sd-landing-page/projects/predicao/"
   },
   {
@@ -39,6 +48,9 @@
       "Educação",
       "IA"
     ],
+    "client": "DN SENAI",
+    "year": 2025,
+    "live_url": "https://saep-ia.sc.senai.br/",
     "url": "/sd-landing-page/projects/saep/"
   },
   {
@@ -49,6 +61,9 @@
       "IA",
       "Gestão"
     ],
+    "client": "FEPT",
+    "year": 2024,
+    "live_url": "https://habilita-ia-hml1.hml.sc.senai.br/login",
     "url": "/sd-landing-page/projects/habilita/"
   }
 ]
