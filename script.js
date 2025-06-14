@@ -125,7 +125,9 @@ async function loadProducts() {
         // Renderizar todos os cards de projetos
         projects.forEach((project, index) => {
             const newCard = document.createElement('div');
-            newCard.className = 'product-card fade-in';
+            newCard.className = 'product-card';
+            newCard.setAttribute('data-aos', 'fade-up');
+            newCard.setAttribute('data-aos-delay', (index % 3) * 100)
 
             // Adiciona as tags do projeto como um atributo de dados para a filtragem
             if (project.tags && project.tags.length > 0) {
@@ -205,6 +207,7 @@ async function loadProducts() {
                                 card.style.display = 'none'; // Remove completamente o card do layout
                             }
                         });
+                        AOS.refresh(); 
                     }, 400); // Este tempo DEVE ser igual à duração da transição no seu CSS (transition: all 0.6s, opacity 0.4s)
                 }
             });
@@ -288,6 +291,13 @@ const observer = new IntersectionObserver((entries, observer) => {
 
 // Inicia o carregamento dos produtos quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', () => {
+
+    // Inicia a biblioteca de animações
+    AOS.init({
+        duration: 800, // Duração da animação em milissegundos
+        once: true,    // Animação acontece apenas uma vez
+    });
+
     loadProducts();
 });
 
