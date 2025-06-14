@@ -5,7 +5,10 @@ import yaml
 import shutil
 import markdown
 
+REPO_NAME = '/sd-landing-page'
+
 def build_portfolio():
+    
     projects_dir = 'projects'
     assets_dir = 'assets'
     output_dir = 'dist'
@@ -86,8 +89,7 @@ def build_portfolio():
                                     source_item, dest_item = os.path.join(project_path, item), os.path.join(output_project_dir, item)
                                     if os.path.isfile(source_item): shutil.copy2(source_item, dest_item)
 
-                            github_pages_repo_name = "/sd-landing-page"
-                            project_info['url'] = f"{github_pages_repo_name}/#/projects/{project_slug}/"
+                            project_info['url'] = f"{REPO_NAME}/#/projects/{project_slug}/"
                             portfolio_data.append(project_info)
 
                         except yaml.YAMLError as exc:
