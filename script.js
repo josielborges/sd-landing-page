@@ -246,3 +246,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Listener para quando o hash na URL muda (botões voltar/avançar do navegador)
 window.addEventListener('hashchange', handleRouting);
+
+window.addEventListener('keydown', function (event) {
+    // 1. Verifica se a tecla pressionada foi 'Escape'
+    // 2. E também se o overlay de detalhes está atualmente ativo/visível
+    if (event.key === 'Escape' && projectDetailOverlay.classList.contains('active')) {
+        
+        // Usa a mesma lógica do botão "Voltar" e do "clicar fora"
+        // para fechar o overlay e rolar de volta para a seção do portfólio.
+        window.location.hash = 'portfolio';
+    }
+});

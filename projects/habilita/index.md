@@ -14,7 +14,7 @@ Ele oferece uma visão clara e estruturada das necessidades de desenvolvimento d
 
 A funcionalidade de geração de cards utiliza Inteligência Artificial para criar, automatizadamente, os cards aplicados nos diagnósticos de lacunas (gaps) nas funções dos colaboradores. Com essa tecnologia, o tempo necessário para produzir os cards é reduzido drasticamente — de dias para apenas alguns minutos —, otimizando processos e acelerando a tomada de decisões.
 
-![Geração de cards](geracao-cartas.png)
+![Geração de cards](projects/habilita/geracao-cartas.png)
 
 ## Geração de trilhas e módulos
 
@@ -22,6 +22,6 @@ A partir das prioridades identificadas no diagnóstico organizacional, o Habilit
 
 Todo o conteúdo gerado pode ser customizado conforme a realidade da empresa e atualizado dinamicamente com o suporte contínuo da IA, garantindo alinhamento com as necessidades em constante evolução.
 
-![Geração de trilhas](geracao-trilhas.png)
+![Geração de trilhas](projects/habilita/geracao-trilhas.png)
 
-![Geração de cards](geracao-modulos.png)
+![Geração de cards](projects/habilita/geracao-modulos.png)
