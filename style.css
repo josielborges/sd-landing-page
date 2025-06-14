@@ -855,3 +855,33 @@ body.overlay-active {
     width: 100%; /* Garante que o logo seja responsivo dentro do container */
     height: auto;
 }
+
+
+/* =================================================================== */
+/* =================== BARRA DE ROLAGEM CUSTOMIZADA ================== */
+/* =================================================================== */
+
+/* Para Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #2196F3 #0a101d; /* Cor do "polegar" e do "trilho" */
+}
+
+/* Para browsers WebKit (Chrome, Safari, Edge, etc.) */
+::-webkit-scrollbar {
+  width: 12px; /* Largura da barra de rolagem */
+}
+
+::-webkit-scrollbar-track {
+  background: #0a101d; /* Cor do fundo (trilho), um tom escuro do seu tema */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #1565AD; /* Cor do indicador de rolagem (polegar) */
+  border-radius: 10px; /* Bordas arredondadas */
+  border: 3px solid #0a101d; /* Cria um espaçamento em volta do polegar */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #2196F3; /* Cor ao passar o mouse */
+}
