@@ -87,7 +87,7 @@ def build_portfolio():
                                     if os.path.isfile(source_item): shutil.copy2(source_item, dest_item)
 
                             github_pages_repo_name = "/sd-landing-page"
-                            project_info['url'] = f"{github_pages_repo_name}/projects/{project_slug}/"
+                            project_info['url'] = f"{github_pages_repo_name}/#/projects/{project_slug}/"
                             portfolio_data.append(project_info)
 
                         except yaml.YAMLError as exc:
