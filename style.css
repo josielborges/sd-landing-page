@@ -522,7 +522,6 @@ footer {
 .project-detail {
     padding: 20px 0px;
     /* background: #0a0a0a; Fundo escuro como nas outras seções */
-    min-height: 80vh; /* Garante que a seção ocupe pelo menos 80% da altura da tela */
     color: #ffffff;
 }
 
