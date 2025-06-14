@@ -1,14 +1,41 @@
-<section class="project-detail">
-    <div class="container">
-        <h1 class="project-detail-title">{{ PROJECT_ICON }} {{ PROJECT_TITLE }}</h1>
-        <p class="project-detail-description">{{ PROJECT_DESCRIPTION }}</p>
-        
-        <div class="project-content">
-            {{ PROJECT_FULL_CONTENT_HTML }}
-        </div>
+<section class="project-detail-reimagined">
+    <div class="project-detail-grid">
+        <aside class="project-info-sidebar">
+            <div class="info-sticky-content">
+                <div class="info-icon">{{ PROJECT_ICON }}</div>
+                <h2 class="info-title">{{ PROJECT_TITLE }}</h2>
 
-        <div class="back-to-portfolio">
-            <a href="#portfolio" class="cta-button" id="back-to-portfolio-button">← Voltar ao Portfólio</a>
-        </div>
+                <div class="info-meta">
+                    <div class="info-item">
+                        <strong>Cliente</strong>
+                        <span>{{ PROJECT_CLIENT }}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Ano</strong>
+                        <span>{{ PROJECT_YEAR }}</span>
+                    </div>
+                </div>
+
+                <div class="info-tags">
+                    <strong>Tecnologias</strong>
+                    <div class="tags-container">
+                        {{ PROJECT_TAGS_HTML }}
+                    </div>
+                </div>
+
+                {{ PROJECT_LIVE_URL_BUTTON_HTML }}
+            </div>
+            
+            <div class="back-to-portfolio">
+                <a href="#portfolio" class="cta-button" id="back-to-portfolio-button">← Voltar ao Portfólio</a>
+            </div>
+        </aside>
+
+        <main class="project-main-content">
+            <p class="project-lead-description">{{ PROJECT_DESCRIPTION }}</p>
+            <div class="project-body-content">
+                {{ PROJECT_FULL_CONTENT_HTML }}
+            </div>
+        </main>
     </div>
 </section>

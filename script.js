@@ -66,17 +66,15 @@ function hideProjectDetail() {
 
 // Event listener para fechar o overlay ao clicar no fundo
 projectDetailOverlay.addEventListener('click', function(event) {
-    // A mágica está aqui: verificamos se o alvo do clique (event.target)
-    // é o próprio elemento do overlay (o fundo escuro).
-    if (event.target === projectDetailOverlay) {
+    // --- CONDIÇÃO CORRIGIDA ---
+    // Agora, verificamos se o clique foi no "wrapper" do conteúdo.
+    // Como o wrapper ocupa a tela toda, clicar "fora" do card de conteúdo
+    // significa clicar neste wrapper.
+    if (event.target.classList.contains('project-detail-content-wrapper')) {
         
-        // Chamamos a mesma função que o botão "Voltar" usa
         hideProjectDetail();
-
-        // Opcional, mas recomendado:
-        // Isso atualiza a URL, removendo o caminho do projeto e fazendo
-        // o botão "voltar" do navegador funcionar como esperado.
-        // Se a URL for /projeto-x, ele volta para a página principal.
+        
+        // Lógica para voltar no histórico do navegador
         if (window.location.pathname.includes('/projects/')) {
              window.history.back();
         }

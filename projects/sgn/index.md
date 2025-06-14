@@ -3,7 +3,9 @@ name: SGN
 icon: 🚀
 description: Plataforma de Gestão do Negócio. Responsável por gerir toda a educação do SENAI e SESI de Santa Catarina.
 tags: ["Educação", "Gestão"]
-url: #detalhes-sistema-gestao
+client: "DR SESI/SENAI"
+year: 2012-2025
+live_url: "https://sc.senai.br/sgn"
 ---
 Este é um conteúdo mais detalhado sobre o Sistema de Gestão Industrial.
 Pode incluir mais parágrafos, imagens, etc.
