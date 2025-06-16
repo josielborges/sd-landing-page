@@ -10,6 +10,7 @@
     "client": "DR SESI/SENAI",
     "year": "2012-2025",
     "live_url": "https://sc.senai.br/sgn",
+    "slug": "sgn",
     "url": "/sd-landing-page/#/projects/sgn/"
   },
   {
@@ -24,6 +25,7 @@
     "client": "DR SENAI",
     "year": "2012 - 2025",
     "live_url": "https://sc.senai.br/sgn",
+    "slug": "chatbot-sgn",
     "url": "/sd-landing-page/#/projects/chatbot-sgn/"
   },
   {
@@ -38,6 +40,7 @@
     "client": "DR SESI/SENAI",
     "year": 2025,
     "live_url": "https://sc.senai.br/sgn",
+    "slug": "predicao",
     "url": "/sd-landing-page/#/projects/predicao/"
   },
   {
@@ -51,6 +54,7 @@
     "client": "DN SENAI",
     "year": 2025,
     "live_url": "https://saep-ia.sc.senai.br/",
+    "slug": "saep",
     "url": "/sd-landing-page/#/projects/saep/"
   },
   {
@@ -64,6 +68,7 @@
     "client": "FEPT",
     "year": 2024,
     "live_url": "https://habilita-ia-hml1.hml.sc.senai.br/login",
+    "slug": "habilita",
     "url": "/sd-landing-page/#/projects/habilita/"
   }
 ]

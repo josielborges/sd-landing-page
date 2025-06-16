@@ -1101,3 +1101,64 @@ html {
         font-size: 1.2rem;
     }
 }
+
+/* =================================================================== */
+/* ============= NAVEGAÇÃO ENTRE PROJETOS NO OVERLAY ================ */
+/* =================================================================== */
+
+.project-nav-arrow {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1001; /* Garante que fique acima do fundo do overlay */
+    
+    /* Começam invisíveis e não-clicáveis */
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Mostra as setas apenas quando o overlay está ativo */
+.project-detail-overlay.active .project-nav-arrow {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.project-nav-arrow.prev {
+    left: 40px;
+}
+
+.project-nav-arrow.next {
+    right: 40px;
+}
+
+.project-nav-arrow:hover {
+    background: #2196F3;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Estilo para quando um botão está desativado (primeiro/último projeto) */
+.project-nav-arrow.disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .project-nav-arrow.prev {
+        left: 10px;
+    }
+    .project-nav-arrow.next {
+        right: 10px;
+    }
+}
