@@ -34,6 +34,7 @@ async function showProjectDetail(projectHtmlPath) {
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const htmlFragment = await response.text();
         projectDetailContentWrapper.innerHTML = htmlFragment;
+        wrapYouTubeVideos(projectDetailContentWrapper);
         projectDetailOverlay.classList.add('active');
         document.body.classList.add('overlay-active'); 
         projectDetailOverlay.scrollTop = 0;

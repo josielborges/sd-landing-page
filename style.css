@@ -809,10 +809,15 @@ body.overlay-active {
 .video-responsive {
     position: relative;
     overflow: hidden;
-    width: 100%;
-    padding-top: 56.25%; /* Proporção de 16:9 (altura / largura) */
-    margin: 30px auto; /* Centraliza e adiciona margem, como nas imagens */
-    border-radius: 8px; /* Cantos arredondados */
+    
+    /* MUDANÇA PRINCIPAL AQUI: */
+    /* Define uma largura máxima para o vídeo, permitindo que ele seja centralizado */
+    max-width: 720px; 
+    width: 100%;      /* Mantém a responsividade em telas menores que 720px */
+    
+    padding-top: 56.25%; /* Proporção 16:9 */
+    margin: 30px auto; /* O 'auto' agora consegue centralizar o bloco */
+    border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
 }
 
