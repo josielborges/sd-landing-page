@@ -1167,3 +1167,64 @@ html {
         right: 10px;
     }
 }
+
+/* =================================================================== */
+/* ============= SEÇÃO TRABALHE CONOSCO (CARREIRAS) ================== */
+/* =================================================================== */
+
+.careers-section {
+    padding: 5rem 2rem;
+    background: #11223a; /* Usando o mesmo fundo da seção "Sobre" para consistência */
+}
+
+.careers-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.careers-intro {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #cccccc;
+    margin-bottom: 2.5rem;
+}
+
+.careers-content .cta-button {
+    margin-bottom: 1rem;
+}
+
+.careers-content .cta-button i {
+    margin-left: 0.5rem;
+    font-size: 0.9em;
+}
+
+.disclaimer-text {
+    font-size: 0.9rem;
+    color: #888888;
+    font-style: italic;
+}
+
+.careers-social {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.careers-social h3 {
+    color: #ffffff;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.fiesc-info-link {
+    margin-top: 4rem;
+    color: #cccccc;
+    font-size: 1rem;
+}
+
+.fiesc-info-link a {
+    color: #2196F3;
+    text-decoration: underline;
+    font-weight: 500;
+}
