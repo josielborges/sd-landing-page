@@ -96,10 +96,12 @@ def build_portfolio():
                         except yaml.YAMLError as exc:
                             print(f"Erro ao parsear YAML em {md_file_path}: {exc}")
 
+    portfolio_data.sort(key=lambda p: (p.get('order', float('inf')), p.get('name', '')))
+
     with open(output_json_file, 'w', encoding='utf-8') as f:
         json.dump(portfolio_data, f, indent=2, ensure_ascii=False)
     print(f"Portfólio JSON gerado com sucesso com {len(portfolio_data)} projetos.")
-    static_files_to_copy = ['index.html', 'style.css', 'script.js']
+    static_files_to_copy = ['index.html', 'style.css', 'script.js', 'portfolio.html'] # <-- ADICIONE AQUI
     for sf in static_files_to_copy:
         source_path, destination_path = sf, os.path.join(output_dir, sf)
         if os.path.exists(source_path): shutil.copy(source_path, destination_path)
