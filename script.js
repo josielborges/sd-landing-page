@@ -8,6 +8,7 @@ const BASE_PATH = isLocal ? '' : '/sd-landing-page';
 
 // --- Variáveis Globais ---
 let allProjects = []; // A lista de todos os projetos será armazenada aqui.
+let currentlyVisibleProjects = []; // <<--- NOVA: Lista apenas com os projetos visíveis/filtrados
 const projectDetailOverlay = document.getElementById('project-detail-overlay');
 const projectDetailContentWrapper = projectDetailOverlay.querySelector('.project-detail-content-wrapper');
 const prevProjectBtn = document.getElementById('prev-project-btn');
@@ -64,15 +65,16 @@ async function showProjectDetail(projectHtmlPath) {
 }
 
 function updateProjectNavigation() {
+    // *** MUDANÇA: Agora usa a lista de projetos visíveis ***
     const currentHash = window.location.hash;
-    if (allProjects.length < 2) {
+    if (currentlyVisibleProjects.length < 2) {
         prevProjectBtn.classList.add('disabled');
         nextProjectBtn.classList.add('disabled');
         return;
     };
 
     const currentSlug = currentHash.split('/')[2]; 
-    const currentIndex = allProjects.findIndex(p => p.slug === currentSlug);
+    const currentIndex = currentlyVisibleProjects.findIndex(p => p.slug === currentSlug);
 
     if (currentIndex === -1) {
         prevProjectBtn.classList.add('disabled');
@@ -80,24 +82,20 @@ function updateProjectNavigation() {
         return;
     }
 
-    // Lógica para o botão ANTERIOR
     if (currentIndex > 0) {
         prevProjectBtn.classList.remove('disabled');
         prevProjectBtn.onclick = () => {
-            // CORREÇÃO: Usamos .substring(1) para remover o # existente
-            window.location.hash = allProjects[currentIndex - 1].url.substring(1);
+            window.location.hash = currentlyVisibleProjects[currentIndex - 1].url.substring(1);
         };
     } else {
         prevProjectBtn.classList.add('disabled');
         prevProjectBtn.onclick = null;
     }
 
-    // Lógica para o botão PRÓXIMO
-    if (currentIndex < allProjects.length - 1) {
+    if (currentIndex < currentlyVisibleProjects.length - 1) {
         nextProjectBtn.classList.remove('disabled');
         nextProjectBtn.onclick = () => {
-            // CORREÇÃO: Usamos .substring(1) para remover o # existente
-            window.location.hash = allProjects[currentIndex + 1].url.substring(1);
+            window.location.hash = currentlyVisibleProjects[currentIndex + 1].url.substring(1);
         };
     } else {
         nextProjectBtn.classList.add('disabled');
@@ -140,16 +138,15 @@ function handleRouting() {
 async function loadProducts() {
     const productsGrid = document.getElementById('products-grid');
     const filterContainer = document.getElementById('filter-container');
+    if (!productsGrid || !filterContainer) return;
     productsGrid.innerHTML = '';
-    if (filterContainer) filterContainer.innerHTML = '';
-
+    filterContainer.innerHTML = '';
+    
     try {
         const response = await fetch(BASE_PATH + '/projects.json');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        
-        // *** A CORREÇÃO PRINCIPAL ESTÁ AQUI ***
-        // Atribuímos o resultado para a variável global allProjects
         allProjects = await response.json();
+        currentlyVisibleProjects = [...allProjects]; // Inicialmente, todos os projetos são visíveis
 
         // Lógica para criar botões de filtro
         const allTags = new Set();
@@ -158,22 +155,22 @@ async function loadProducts() {
         allButton.className = 'filter-btn active';
         allButton.textContent = 'Todos';
         allButton.dataset.tag = 'all';
-        if (filterContainer) filterContainer.appendChild(allButton);
+        filterContainer.appendChild(allButton);
         allTags.forEach(tag => {
             const button = document.createElement('button');
             button.className = 'filter-btn';
             button.textContent = tag;
             button.dataset.tag = tag;
-            if (filterContainer) filterContainer.appendChild(button);
+            filterContainer.appendChild(button);
         });
 
-        // Renderizar todos os cards de projetos
+        // Renderizar cards
         allProjects.forEach((project, index) => {
             const newCard = document.createElement('div');
             newCard.className = 'product-card';
             newCard.setAttribute('data-aos', 'fade-up');
             newCard.setAttribute('data-aos-delay', (index % 3) * 100);
-            if (project.tags && project.tags.length > 0) {
+            if (project.tags) {
                 newCard.dataset.tags = project.tags.map(t => t.trim()).join(',');
             }
             newCard.innerHTML = `
@@ -181,45 +178,48 @@ async function loadProducts() {
                 <h3>${project.name}</h3>
                 <p>${project.description}</p>
                 <div class="product-tags">${project.tags ? project.tags.map(tag => `<span class="tag">${tag.trim()}</span>`).join('') : ''}</div>
-                <a href="${project.url || '#'}" class="product-link">Ver detalhes →</a>`;
+                <a href="${project.url}" class="product-link">Ver detalhes →</a>`;
             productsGrid.appendChild(newCard);
-
             const productLink = newCard.querySelector('.product-link');
-            if (productLink && project.url) {
+            if (productLink) {
                 productLink.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const hash = new URL(productLink.href, window.location.origin).hash;
-                    window.location.hash = hash;
+                    window.location.hash = productLink.getAttribute('href').substring(1);
                 });
             }
         });
 
         // Lógica de clique nos filtros
-        if (filterContainer) {
-            filterContainer.addEventListener('click', (e) => {
-                if (e.target.matches('.filter-btn')) {
-                    if (e.target.classList.contains('active')) return;
-                    const selectedTag = e.target.dataset.tag;
-                    filterContainer.querySelector('.active').classList.remove('active');
-                    e.target.classList.add('active');
-                    document.querySelectorAll('.product-card').forEach(card => card.style.opacity = '0');
-                    setTimeout(() => {
-                        document.querySelectorAll('.product-card').forEach(card => {
-                            const cardTags = card.dataset.tags;
-                            const shouldBeVisible = selectedTag === 'all' || (cardTags && cardTags.includes(selectedTag));
-                            card.style.display = shouldBeVisible ? 'block' : 'none';
-                            if (shouldBeVisible) {
-                                setTimeout(() => { card.style.opacity = '1'; }, 10);
-                            }
-                        });
-                        AOS.refresh(); 
-                    }, 400);
+        filterContainer.addEventListener('click', (e) => {
+            if (e.target.matches('.filter-btn')) {
+                if (e.target.classList.contains('active')) return;
+                const selectedTag = e.target.dataset.tag;
+                filterContainer.querySelector('.active').classList.remove('active');
+                e.target.classList.add('active');
+
+                // *** MUDANÇA: Atualiza a lista de projetos visíveis ***
+                if (selectedTag === 'all') {
+                    currentlyVisibleProjects = [...allProjects];
+                } else {
+                    currentlyVisibleProjects = allProjects.filter(p => p.tags && p.tags.map(t => t.trim()).includes(selectedTag));
                 }
-            });
-        }
+
+                document.querySelectorAll('.product-card').forEach(card => card.style.opacity = '0');
+                setTimeout(() => {
+                    document.querySelectorAll('.product-card').forEach(card => {
+                        const cardTags = card.dataset.tags;
+                        const shouldBeVisible = selectedTag === 'all' || (cardTags && cardTags.includes(selectedTag));
+                        card.style.display = shouldBeVisible ? 'block' : 'none';
+                        if (shouldBeVisible) {
+                            setTimeout(() => { card.style.opacity = '1'; }, 10);
+                        }
+                    });
+                    if (typeof AOS !== 'undefined') AOS.refresh();
+                }, 400);
+            }
+        });
     } catch (error) {
         console.error('Falha ao carregar produtos:', error);
-        productsGrid.innerHTML = '<p style="text-align: center; color: #ff6666;">Não foi possível carregar os produtos.</p>';
     }
 }
 
