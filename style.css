@@ -1228,3 +1228,55 @@ html {
     text-decoration: underline;
     font-weight: 500;
 }
+
+/* --- Estilo para o container do botão "Ver Todos" --- */
+.see-all-container {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+/* --- Estilo para o Botão "Voltar" na página de portfólio --- */
+.back-to-home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    /* Ajustamos o padding para se alinhar melhor com o título */
+    padding: 0 2rem 3rem; 
+}
+
+main.full-portfolio-page {
+    /* Adiciona um espaçamento no topo igual à altura aproximada do header, mais uma folga. */
+    padding-top: 50px;
+}
+
+.back-to-home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    /* Ajustamos o padding para se alinhar melhor com o título */
+    padding: 0 2rem 3rem; 
+}
+
+.back-to-home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem; /* Adiciona espaçamento interno para criar um "corpo" */
+    
+    /* Estilo de "pílula" ou "chip" */
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px; 
+    
+    color: #cccccc; /* Cor de texto mais suave */
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.back-to-home-link:hover {
+    background-color: #2196F3;
+    border-color: #2196F3;
+    color: #ffffff;
+    transform: translateY(-3px); /* Mantém o efeito de elevação */
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
