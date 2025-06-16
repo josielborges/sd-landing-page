@@ -2,10 +2,16 @@
 // ================ SCRIPT.JS COMPLETO E ATUALIZADO ==================
 // ===================================================================
 
+// --- LÓGICA DE DETECÇÃO DE AMBIENTE ---
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const BASE_PATH = isLocal ? '' : '/sd-landing-page';
+
 // --- Variáveis Globais ---
-const REPO_NAME = '/sd-landing-page';
+let allProjects = []; // A lista de todos os projetos será armazenada aqui.
 const projectDetailOverlay = document.getElementById('project-detail-overlay');
 const projectDetailContentWrapper = projectDetailOverlay.querySelector('.project-detail-content-wrapper');
+const prevProjectBtn = document.getElementById('prev-project-btn');
+const nextProjectBtn = document.getElementById('next-project-btn');
 const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
 const observer = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
@@ -21,18 +27,15 @@ const observer = new IntersectionObserver((entries, observer) => {
 // --- Funções Principais do Overlay ---
 
 async function showProjectDetail(projectHtmlPath) {
-    // CORREÇÃO: Usamos a variável REPO_NAME para montar a URL de busca correta
-    const finalFetchUrl = REPO_NAME + projectHtmlPath;
+    const finalFetchUrl = BASE_PATH + projectHtmlPath;
     
     try {
         const bodyHasScrollbar = window.innerHeight < document.body.scrollHeight;
         if (bodyHasScrollbar) {
             const scrollbarWidth = '12px';
             document.body.style.paddingRight = scrollbarWidth;
-            document.querySelector('header').style.paddingRight = scrollbarWidth;
         }
 
-        console.log('Carregando detalhes do projeto de:', finalFetchUrl);
         const response = await fetch(finalFetchUrl);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const htmlFragment = await response.text();
@@ -50,9 +53,55 @@ async function showProjectDetail(projectHtmlPath) {
                 window.location.hash = 'portfolio';
             });
         }
+        
+        // Atualiza o estado dos botões de navegação
+        updateProjectNavigation();
+
     } catch (error) {
         console.error('Falha ao carregar detalhes do projeto:', error);
         projectDetailContentWrapper.innerHTML = `<p style="text-align: center; color: #ff6666;">Não foi possível carregar os detalhes do projeto.</p>`;
+    }
+}
+
+function updateProjectNavigation() {
+    const currentHash = window.location.hash;
+    if (allProjects.length < 2) {
+        prevProjectBtn.classList.add('disabled');
+        nextProjectBtn.classList.add('disabled');
+        return;
+    };
+
+    const currentSlug = currentHash.split('/')[2]; 
+    const currentIndex = allProjects.findIndex(p => p.slug === currentSlug);
+
+    if (currentIndex === -1) {
+        prevProjectBtn.classList.add('disabled');
+        nextProjectBtn.classList.add('disabled');
+        return;
+    }
+
+    // Lógica para o botão ANTERIOR
+    if (currentIndex > 0) {
+        prevProjectBtn.classList.remove('disabled');
+        prevProjectBtn.onclick = () => {
+            // CORREÇÃO: Usamos .substring(1) para remover o # existente
+            window.location.hash = allProjects[currentIndex - 1].url.substring(1);
+        };
+    } else {
+        prevProjectBtn.classList.add('disabled');
+        prevProjectBtn.onclick = null;
+    }
+
+    // Lógica para o botão PRÓXIMO
+    if (currentIndex < allProjects.length - 1) {
+        nextProjectBtn.classList.remove('disabled');
+        nextProjectBtn.onclick = () => {
+            // CORREÇÃO: Usamos .substring(1) para remover o # existente
+            window.location.hash = allProjects[currentIndex + 1].url.substring(1);
+        };
+    } else {
+        nextProjectBtn.classList.add('disabled');
+        nextProjectBtn.onclick = null;
     }
 }
 
@@ -95,13 +144,16 @@ async function loadProducts() {
     if (filterContainer) filterContainer.innerHTML = '';
 
     try {
-        const response = await fetch('projects.json');
+        const response = await fetch(BASE_PATH + '/projects.json');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const projects = await response.json();
+        
+        // *** A CORREÇÃO PRINCIPAL ESTÁ AQUI ***
+        // Atribuímos o resultado para a variável global allProjects
+        allProjects = await response.json();
 
-        // Lógica para criar botões de filtro (mantida)
+        // Lógica para criar botões de filtro
         const allTags = new Set();
-        projects.forEach(p => p.tags?.forEach(t => allTags.add(t.trim())));
+        allProjects.forEach(p => p.tags?.forEach(t => allTags.add(t.trim())));
         const allButton = document.createElement('button');
         allButton.className = 'filter-btn active';
         allButton.textContent = 'Todos';
@@ -116,7 +168,7 @@ async function loadProducts() {
         });
 
         // Renderizar todos os cards de projetos
-        projects.forEach((project, index) => {
+        allProjects.forEach((project, index) => {
             const newCard = document.createElement('div');
             newCard.className = 'product-card';
             newCard.setAttribute('data-aos', 'fade-up');
@@ -132,20 +184,17 @@ async function loadProducts() {
                 <a href="${project.url || '#'}" class="product-link">Ver detalhes →</a>`;
             productsGrid.appendChild(newCard);
 
-            // Listener de clique no card para NAVEGAR via hash
             const productLink = newCard.querySelector('.product-link');
             if (productLink && project.url) {
                 productLink.addEventListener('click', (e) => {
                     e.preventDefault();
-                    // A URL no link já contém o hash correto (ex: /sd-landing-page/#/projects/...)
-                    // Nós apenas extraímos o hash e o aplicamos à janela
                     const hash = new URL(productLink.href, window.location.origin).hash;
                     window.location.hash = hash;
                 });
             }
         });
 
-        // Adicionar event listeners aos botões de filtro (mantido)
+        // Lógica de clique nos filtros
         if (filterContainer) {
             filterContainer.addEventListener('click', (e) => {
                 if (e.target.matches('.filter-btn')) {

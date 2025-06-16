@@ -53,6 +53,8 @@ def build_portfolio():
                         markdown_body = parts[2].strip()
                         try:
                             project_info = yaml.safe_load(yaml_str)
+
+                            project_info['slug'] = project_slug 
                             
                             output_project_dir = os.path.join(detail_pages_output_dir, project_slug)
                             os.makedirs(output_project_dir, exist_ok=True)
