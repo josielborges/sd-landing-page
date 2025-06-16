@@ -91,7 +91,6 @@ def build_portfolio():
                                     source_item, dest_item = os.path.join(project_path, item), os.path.join(output_project_dir, item)
                                     if os.path.isfile(source_item): shutil.copy2(source_item, dest_item)
 
-                            project_info['url'] = f"{REPO_NAME}/#/projects/{project_slug}/"
                             portfolio_data.append(project_info)
 
                         except yaml.YAMLError as exc:

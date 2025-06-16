@@ -29,24 +29,14 @@ const observer = new IntersectionObserver((entries, observer) => {
 
 async function showProjectDetail(projectHtmlPath) {
     const finalFetchUrl = BASE_PATH + projectHtmlPath;
-    
     try {
-        const bodyHasScrollbar = window.innerHeight < document.body.scrollHeight;
-        if (bodyHasScrollbar) {
-            const scrollbarWidth = '12px';
-            document.body.style.paddingRight = scrollbarWidth;
-        }
-
         const response = await fetch(finalFetchUrl);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const htmlFragment = await response.text();
-
         projectDetailContentWrapper.innerHTML = htmlFragment;
-        
         projectDetailOverlay.classList.add('active');
         document.body.classList.add('overlay-active'); 
         projectDetailOverlay.scrollTop = 0;
-
         const backButton = projectDetailContentWrapper.querySelector('#back-to-portfolio-button');
         if (backButton) {
             backButton.addEventListener('click', (e) => {
@@ -54,49 +44,40 @@ async function showProjectDetail(projectHtmlPath) {
                 window.location.hash = 'portfolio';
             });
         }
-        
-        // Atualiza o estado dos botões de navegação
         updateProjectNavigation();
-
     } catch (error) {
         console.error('Falha ao carregar detalhes do projeto:', error);
-        projectDetailContentWrapper.innerHTML = `<p style="text-align: center; color: #ff6666;">Não foi possível carregar os detalhes do projeto.</p>`;
     }
 }
 
 function updateProjectNavigation() {
-    // *** MUDANÇA: Agora usa a lista de projetos visíveis ***
     const currentHash = window.location.hash;
     if (currentlyVisibleProjects.length < 2) {
         prevProjectBtn.classList.add('disabled');
         nextProjectBtn.classList.add('disabled');
         return;
     };
-
     const currentSlug = currentHash.split('/')[2]; 
     const currentIndex = currentlyVisibleProjects.findIndex(p => p.slug === currentSlug);
-
     if (currentIndex === -1) {
         prevProjectBtn.classList.add('disabled');
         nextProjectBtn.classList.add('disabled');
         return;
     }
-
+    // Lógica para o botão ANTERIOR
     if (currentIndex > 0) {
         prevProjectBtn.classList.remove('disabled');
-        prevProjectBtn.onclick = () => {
-            window.location.hash = currentlyVisibleProjects[currentIndex - 1].url.substring(1);
-        };
+        const prevSlug = currentlyVisibleProjects[currentIndex - 1].slug;
+        prevProjectBtn.onclick = () => { window.location.hash = `/projects/${prevSlug}/`; };
     } else {
         prevProjectBtn.classList.add('disabled');
         prevProjectBtn.onclick = null;
     }
-
+    // Lógica para o botão PRÓXIMO
     if (currentIndex < currentlyVisibleProjects.length - 1) {
         nextProjectBtn.classList.remove('disabled');
-        nextProjectBtn.onclick = () => {
-            window.location.hash = currentlyVisibleProjects[currentIndex + 1].url.substring(1);
-        };
+        const nextSlug = currentlyVisibleProjects[currentIndex + 1].slug;
+        nextProjectBtn.onclick = () => { window.location.hash = `/projects/${nextSlug}/`; };
     } else {
         nextProjectBtn.classList.add('disabled');
         nextProjectBtn.onclick = null;
@@ -106,14 +87,7 @@ function updateProjectNavigation() {
 function hideProjectDetail() {
     projectDetailOverlay.classList.remove('active');
     document.body.classList.remove('overlay-active');
-
-    // Remove a compensação da barra de rolagem
-    document.body.style.paddingRight = '';
-    document.querySelector('header').style.paddingRight = '';
-
-    setTimeout(() => {
-        projectDetailContentWrapper.innerHTML = '';
-    }, 400); // Espera a animação de fade-out
+    setTimeout(() => { projectDetailContentWrapper.innerHTML = ''; }, 400);
 }
 
 
@@ -121,10 +95,8 @@ function hideProjectDetail() {
 
 function handleRouting() {
     const hash = window.location.hash;
-
-    // Verifica se o hash corresponde ao padrão de um projeto
     if (hash.startsWith('#/projects/')) {
-        const projectPath = hash.substring(1); // ex: /projects/predicao/
+        const projectPath = hash.substring(1);
         const projectHtmlPath = projectPath + 'index.html';
         showProjectDetail(projectHtmlPath);
     } else {
@@ -146,9 +118,9 @@ async function loadProducts() {
         const response = await fetch(BASE_PATH + '/projects.json');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         allProjects = await response.json();
-        currentlyVisibleProjects = [...allProjects]; // Inicialmente, todos os projetos são visíveis
+        currentlyVisibleProjects = [...allProjects];
 
-        // Lógica para criar botões de filtro
+        // *** CÓDIGO DO FILTRO RESTAURADO (INÍCIO) ***
         const allTags = new Set();
         allProjects.forEach(p => p.tags?.forEach(t => allTags.add(t.trim())));
         const allButton = document.createElement('button');
@@ -164,6 +136,28 @@ async function loadProducts() {
             filterContainer.appendChild(button);
         });
 
+        filterContainer.addEventListener('click', (e) => {
+            if (e.target.matches('.filter-btn')) {
+                if (e.target.classList.contains('active')) return;
+                const selectedTag = e.target.dataset.tag;
+                filterContainer.querySelector('.active').classList.remove('active');
+                e.target.classList.add('active');
+
+                if (selectedTag === 'all') {
+                    currentlyVisibleProjects = [...allProjects];
+                } else {
+                    currentlyVisibleProjects = allProjects.filter(p => p.tags && p.tags.map(t => t.trim()).includes(selectedTag));
+                }
+
+                document.querySelectorAll('.product-card').forEach(card => {
+                    const cardTags = card.dataset.tags;
+                    const shouldBeVisible = selectedTag === 'all' || (cardTags && cardTags.includes(selectedTag));
+                    card.style.display = shouldBeVisible ? 'block' : 'none';
+                });
+            }
+        });
+        // *** CÓDIGO DO FILTRO RESTAURADO (FIM) ***
+
         // Renderizar cards
         allProjects.forEach((project, index) => {
             const newCard = document.createElement('div');
@@ -173,49 +167,20 @@ async function loadProducts() {
             if (project.tags) {
                 newCard.dataset.tags = project.tags.map(t => t.trim()).join(',');
             }
+            const projectHash = `#/projects/${project.slug}/`;
             newCard.innerHTML = `
                 <div class="product-icon">${project.icon || '💡'}</div>
                 <h3>${project.name}</h3>
                 <p>${project.description}</p>
                 <div class="product-tags">${project.tags ? project.tags.map(tag => `<span class="tag">${tag.trim()}</span>`).join('') : ''}</div>
-                <a href="${project.url}" class="product-link">Ver detalhes →</a>`;
+                <a href="${projectHash}" class="product-link">Ver detalhes →</a>`;
             productsGrid.appendChild(newCard);
             const productLink = newCard.querySelector('.product-link');
             if (productLink) {
                 productLink.addEventListener('click', (e) => {
                     e.preventDefault();
-                    window.location.hash = productLink.getAttribute('href').substring(1);
+                    window.location.hash = productLink.getAttribute('href');
                 });
-            }
-        });
-
-        // Lógica de clique nos filtros
-        filterContainer.addEventListener('click', (e) => {
-            if (e.target.matches('.filter-btn')) {
-                if (e.target.classList.contains('active')) return;
-                const selectedTag = e.target.dataset.tag;
-                filterContainer.querySelector('.active').classList.remove('active');
-                e.target.classList.add('active');
-
-                // *** MUDANÇA: Atualiza a lista de projetos visíveis ***
-                if (selectedTag === 'all') {
-                    currentlyVisibleProjects = [...allProjects];
-                } else {
-                    currentlyVisibleProjects = allProjects.filter(p => p.tags && p.tags.map(t => t.trim()).includes(selectedTag));
-                }
-
-                document.querySelectorAll('.product-card').forEach(card => card.style.opacity = '0');
-                setTimeout(() => {
-                    document.querySelectorAll('.product-card').forEach(card => {
-                        const cardTags = card.dataset.tags;
-                        const shouldBeVisible = selectedTag === 'all' || (cardTags && cardTags.includes(selectedTag));
-                        card.style.display = shouldBeVisible ? 'block' : 'none';
-                        if (shouldBeVisible) {
-                            setTimeout(() => { card.style.opacity = '1'; }, 10);
-                        }
-                    });
-                    if (typeof AOS !== 'undefined') AOS.refresh();
-                }, 400);
             }
         });
     } catch (error) {
