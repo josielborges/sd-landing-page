@@ -10,8 +10,7 @@
     "client": "DR SESI/SENAI",
     "year": "2012-2025",
     "live_url": "https://sc.senai.br/sgn",
-    "slug": "sgn",
-    "url": "/sd-landing-page/#/projects/sgn/"
+    "slug": "sgn"
   },
   {
     "name": "Chatbot SGN",
@@ -25,8 +24,7 @@
     "client": "DR SENAI",
     "year": "2012 - 2025",
     "live_url": "https://sc.senai.br/sgn",
-    "slug": "chatbot-sgn",
-    "url": "/sd-landing-page/#/projects/chatbot-sgn/"
+    "slug": "chatbot-sgn"
   },
   {
     "name": "Predição de Evasão",
@@ -40,8 +38,7 @@
     "client": "DR SESI/SENAI",
     "year": 2025,
     "live_url": "https://sc.senai.br/sgn",
-    "slug": "predicao",
-    "url": "/sd-landing-page/#/projects/predicao/"
+    "slug": "predicao"
   },
   {
     "name": "SAEP IA",
@@ -54,8 +51,7 @@
     "client": "DN SENAI",
     "year": 2025,
     "live_url": "https://saep-ia.sc.senai.br/",
-    "slug": "saep",
-    "url": "/sd-landing-page/#/projects/saep/"
+    "slug": "saep"
   },
   {
     "name": "Habilita IA",
@@ -68,7 +64,6 @@
     "client": "FEPT",
     "year": 2024,
     "live_url": "https://habilita-ia-hml1.hml.sc.senai.br/login",
-    "slug": "habilita",
-    "url": "/sd-landing-page/#/projects/habilita/"
+    "slug": "habilita"
   }
 ]
