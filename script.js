@@ -2,16 +2,13 @@
 // ================ SCRIPT.JS COMPLETO E ATUALIZADO ==================
 // ===================================================================
 
-// --- LÓGICA DE DETECÇÃO DE AMBIENTE ---
+// ===================== ENVIRONMENT & GLOBALS =====================
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 const BASE_PATH = isLocal ? '' : '/sd-landing-page';
-
 const onHomePage = document.getElementById('products-grid-homepage');
 const onPortfolioPage = document.getElementById('products-grid-full');
-
-// --- Variáveis Globais ---
-let allProjects = []; // A lista de todos os projetos será armazenada aqui.
-let currentlyVisibleProjects = []; // <<--- NOVA: Lista apenas com os projetos visíveis/filtrados
+let allProjects = [];
+let currentlyVisibleProjects = [];
 const projectDetailOverlay = document.getElementById('project-detail-overlay');
 const projectDetailContentWrapper = projectDetailOverlay.querySelector('.project-detail-content-wrapper');
 const prevProjectBtn = document.getElementById('prev-project-btn');
@@ -27,9 +24,7 @@ const observer = new IntersectionObserver((entries, observer) => {
     });
 }, observerOptions);
 
-
-// --- Funções Principais do Overlay ---
-
+// ===================== OVERLAY / PROJECT DETAIL =====================
 async function showProjectDetail(projectHtmlPath) {
     const finalFetchUrl = BASE_PATH + projectHtmlPath;
     try {
@@ -94,9 +89,7 @@ function hideProjectDetail() {
     setTimeout(() => { projectDetailContentWrapper.innerHTML = ''; }, 400);
 }
 
-
-// --- Lógica de Roteamento (Hash Routing) ---
-
+// ===================== ROUTING =====================
 function handleRouting() {
     const hash = window.location.hash;
     if (hash.startsWith('#/projects/')) {
@@ -108,11 +101,7 @@ function handleRouting() {
     }
 }
 
-/**
- * Função reutilizável para renderizar uma lista de projetos em um elemento de grid.
- * @param {Array} projects - A lista de objetos de projeto a ser renderizada.
- * @param {HTMLElement} gridElement - O elemento do DOM onde os cards serão inseridos.
- */
+// ===================== PROJECT CARD RENDERING =====================
 function renderProjectCards(projects, gridElement) {
     if (!gridElement) return; // Se o grid não existir na página, não faz nada.
     
@@ -140,135 +129,7 @@ function renderProjectCards(projects, gridElement) {
     });
 }
 
-// --- Carregamento de Produtos e Filtros ---
-
-
-
-
-// --- Funções Auxiliares e Listeners de Eventos ---
-
-function wrapYouTubeVideos(container) {
-    const iframes = container.querySelectorAll('iframe[src*="youtube.com"], iframe[src*="youtu.be"]');
-    iframes.forEach(iframe => {
-        if (!iframe.parentElement.classList.contains('video-responsive')) {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'video-responsive';
-            iframe.parentNode.insertBefore(wrapper, iframe);
-            wrapper.appendChild(iframe);
-        }
-    });
-}
-
-// Listener para fechar o overlay ao clicar fora
-projectDetailOverlay.addEventListener('click', function(event) {
-    if (event.target.classList.contains('project-detail-content-wrapper')) {
-        window.location.hash = 'portfolio'; // Aponta para a seção do portfólio
-    }
-});
-
-// Listener para rolagem suave de âncoras internas
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-
-        // 1. Ignora os links de projeto para não interferir com a lógica de roteamento
-        if (href.startsWith('#/')) {
-            return;
-        }
-
-        // 2. Procede com a rolagem suave para âncoras internas (ex: #portfolio, #sobre)
-        // Garante que o href não é apenas um "#" vazio
-        if (href.length > 1) {
-            const targetElement = document.querySelector(href);
-            
-            if (targetElement) {
-                e.preventDefault(); // Previne o "salto" imediato do navegador
-
-                // Executa a animação de rolagem suave
-                targetElement.scrollIntoView({
-                    behavior: 'smooth'
-                });
-
-                // Atualiza a URL de forma sutil, sem criar uma nova entrada no histórico
-                // Isso evita comportamentos estranhos com o botão "voltar" do navegador
-                history.replaceState(null, null, href);
-            }
-        }
-    });
-});
-
-
-// Efeitos de scroll (Parallax e Header)
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    document.querySelector('.hero').style.transform = `translateY(${scrolled * -0.5}px)`;
-    const header = document.querySelector('header');
-    header.style.background = (window.scrollY > 100) ? 'rgba(0, 0, 0, 0.95)' : 'rgba(0, 0, 0, 0.9)';
-});
-
-async function fetchAndStoreProjects() {
-    // Não busca os dados de novo se a lista já estiver preenchida
-    if (allProjects.length > 0) return; 
-
-    try {
-        const response = await fetch(BASE_PATH + '/projects.json');
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        allProjects = await response.json();
-        // A lista de projetos visíveis começa com todos os projetos
-        currentlyVisibleProjects = [...allProjects]; 
-    } catch (error) {
-        console.error('Falha ao carregar o arquivo projects.json:', error);
-    }
-}
-
-async function initializeHomepage() {
-    await fetchAndStoreProjects(); // Primeiro, garante que temos os dados
-    const grid = document.getElementById('products-grid-homepage');
-    if (grid) {
-        const projectsToShow = allProjects.slice(0, 6); // Pega apenas os 6 primeiros
-        renderProjectCards(projectsToShow, grid); // Usa nossa função ajudante para desenhar os cards
-    }
-}
-
-// Esta função será chamada apenas na portfolio.html
-async function initializePortfolioPage() {
-    await fetchAndStoreProjects();
-    const grid = document.getElementById('products-grid-full');
-    if (grid) {
-        renderProjectCards(allProjects, grid); // Primeiro, renderiza todos os cards
-        setupFilters(grid); // DEPOIS, configura os filtros para essa grade
-    }
-}
-
-// --- Inicialização da Página ---
-document.addEventListener('DOMContentLoaded', () => {
-    if (onHomePage) {
-        initializeHomepage();
-    } else if (onPortfolioPage) {
-        initializePortfolioPage();
-    }
-
-    // O resto da inicialização que é comum a todas as páginas
-    if (typeof AOS !== 'undefined') {
-        AOS.init({ duration: 800, once: true });
-    }
-    handleRouting(); 
-});
-
-// Listener para quando o hash na URL muda (botões voltar/avançar do navegador)
-window.addEventListener('hashchange', handleRouting);
-
-window.addEventListener('keydown', function (event) {
-    // 1. Verifica se a tecla pressionada foi 'Escape'
-    // 2. E também se o overlay de detalhes está atualmente ativo/visível
-    if (event.key === 'Escape' && projectDetailOverlay.classList.contains('active')) {
-        
-        // Usa a mesma lógica do botão "Voltar" e do "clicar fora"
-        // para fechar o overlay e rolar de volta para a seção do portfólio.
-        window.location.hash = 'portfolio';
-    }
-});
-
+// ===================== FILTERING =====================
 function setupFilters(grid) {
     const filterContainer = document.getElementById('filter-container');
     if (!filterContainer) return; // Só executa se houver um container de filtros na página
@@ -317,4 +178,102 @@ function setupFilters(grid) {
             }
         }
     });
+}
+
+// ===================== AUXILIARY FUNCTIONS =====================
+function wrapYouTubeVideos(container) {
+    const iframes = container.querySelectorAll('iframe[src*="youtube.com"], iframe[src*="youtu.be"]');
+    iframes.forEach(iframe => {
+        if (!iframe.parentElement.classList.contains('video-responsive')) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'video-responsive';
+            iframe.parentNode.insertBefore(wrapper, iframe);
+            wrapper.appendChild(iframe);
+        }
+    });
+}
+
+// ===================== EVENT LISTENERS & PAGE INIT =====================
+projectDetailOverlay.addEventListener('click', function(event) {
+    if (event.target.classList.contains('project-detail-content-wrapper')) {
+        window.location.hash = 'portfolio';
+    }
+});
+document.addEventListener('DOMContentLoaded', () => {
+    if (onHomePage) {
+        initializeHomepage();
+    } else if (onPortfolioPage) {
+        initializePortfolioPage();
+    }
+
+    // O resto da inicialização que é comum a todas as páginas
+    if (typeof AOS !== 'undefined') {
+        AOS.init({ duration: 800, once: true });
+    }
+    handleRouting(); 
+
+    // Restore smooth scroll for anchor links (except project hash links)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href.startsWith('#/')) return; // Don't interfere with project hash routing
+            if (href.length > 1) {
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                    history.replaceState(null, null, href);
+                }
+            }
+        });
+    });
+});
+window.addEventListener('hashchange', handleRouting);
+window.addEventListener('keydown', function (event) {
+    // 1. Verifica se a tecla pressionada foi 'Escape'
+    // 2. E também se o overlay de detalhes está atualmente ativo/visível
+    if (event.key === 'Escape' && projectDetailOverlay.classList.contains('active')) {
+        
+        // Usa a mesma lógica do botão "Voltar" e do "clicar fora"
+        // para fechar o overlay e rolar de volta para a seção do portfólio.
+        window.location.hash = 'portfolio';
+    }
+});
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    document.querySelector('.hero').style.transform = `translateY(${scrolled * -0.5}px)`;
+    const header = document.querySelector('header');
+    header.style.background = (window.scrollY > 100) ? 'rgba(0, 0, 0, 0.95)' : 'rgba(0, 0, 0, 0.9)';
+});
+
+// ===================== DATA FETCHING & PAGE INIT =====================
+async function fetchAndStoreProjects() {
+    // Não busca os dados de novo se a lista já estiver preenchida
+    if (allProjects.length > 0) return; 
+
+    try {
+        const response = await fetch(BASE_PATH + '/projects.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        allProjects = await response.json();
+        // A lista de projetos visíveis começa com todos os projetos
+        currentlyVisibleProjects = [...allProjects]; 
+    } catch (error) {
+        console.error('Falha ao carregar o arquivo projects.json:', error);
+    }
+}
+async function initializeHomepage() {
+    await fetchAndStoreProjects(); // Primeiro, garante que temos os dados
+    const grid = document.getElementById('products-grid-homepage');
+    if (grid) {
+        const projectsToShow = allProjects.slice(0, 6); // Pega apenas os 6 primeiros
+        renderProjectCards(projectsToShow, grid); // Usa nossa função ajudante para desenhar os cards
+    }
+}
+async function initializePortfolioPage() {
+    await fetchAndStoreProjects();
+    const grid = document.getElementById('products-grid-full');
+    if (grid) {
+        renderProjectCards(allProjects, grid); // Primeiro, renderiza todos os cards
+        setupFilters(grid); // DEPOIS, configura os filtros para essa grade
+    }
 }
