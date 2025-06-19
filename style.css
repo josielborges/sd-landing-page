@@ -137,6 +137,7 @@ nav {
     font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 800;
     margin-bottom: 1rem;
+    padding-bottom: 1rem;
     background: linear-gradient(45deg, #ffffff, #2196F3, #1565AD);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
