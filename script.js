@@ -3,7 +3,7 @@
 // ===================================================================
 
 // ===================== ENVIRONMENT & GLOBALS =====================
-const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '0.0.0.0';
 const BASE_PATH = isLocal ? '' : '/sd-landing-page';
 const onHomePage = document.getElementById('products-grid-homepage');
 const onPortfolioPage = document.getElementById('products-grid-full');
@@ -23,6 +23,49 @@ const observer = new IntersectionObserver((entries, observer) => {
         }
     });
 }, observerOptions);
+
+// ===================== MOBILE MENU =====================
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
+const navLinksItems = document.querySelectorAll('.nav-links a');
+
+function toggleMobileMenu() {
+    hamburger.classList.toggle('active');
+    navLinks.classList.toggle('active');
+    document.body.classList.toggle('menu-open');
+}
+
+function closeMobileMenu() {
+    hamburger.classList.remove('active');
+    navLinks.classList.remove('active');
+    document.body.classList.remove('menu-open');
+}
+
+// Event listeners para o menu mobile
+if (hamburger) {
+    hamburger.addEventListener('click', toggleMobileMenu);
+}
+
+// Fecha o menu quando um link é clicado
+navLinksItems.forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
+});
+
+// Fecha o menu quando clica fora dele
+document.addEventListener('click', (e) => {
+    if (navLinks.classList.contains('active') && 
+        !hamburger.contains(e.target) && 
+        !navLinks.contains(e.target)) {
+        closeMobileMenu();
+    }
+});
+
+// Fecha o menu no ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+        closeMobileMenu();
+    }
+});
 
 // ===================== OVERLAY / PROJECT DETAIL =====================
 async function showProjectDetail(projectHtmlPath) {
