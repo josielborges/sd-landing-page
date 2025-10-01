@@ -1983,6 +1983,7 @@ body.dark-theme .back-to-home-link {
     display: flex;
     gap: 2rem;
     margin-top: 3rem;
+    justify-content: center;
 }
 
 .stat-item {

@@ -40,13 +40,17 @@ function toggleTheme() {
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
 }
 
-// Load saved theme
+// Load saved theme - tema claro como padrão
 function loadTheme() {
-    const savedTheme = localStorage.getItem('theme');
+    const savedTheme = localStorage.getItem('theme') || 'light';
     if (savedTheme === 'light') {
         body.classList.add('light-theme');
-        const icon = themeToggle.querySelector('i');
-        icon.className = 'fas fa-moon';
+        const icon = themeToggle?.querySelector('i');
+        if (icon) icon.className = 'fas fa-moon';
+    } else {
+        body.classList.remove('light-theme');
+        const icon = themeToggle?.querySelector('i');
+        if (icon) icon.className = 'fas fa-sun';
     }
 }
 
