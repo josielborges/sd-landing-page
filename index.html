@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -27,7 +27,18 @@
 </head>
 
 <body>
-    <div class="bg-animation"></div>
+    <div class="bg-animation">
+        <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+    </div>
 
     <header>
         <nav>
@@ -44,6 +55,9 @@
                 <li><a href="#contato">Contato</a></li>
                 <li><a href="#carreiras">Trabalhe Conosco</a></li>
             </ul>
+            <button class="theme-toggle" id="theme-toggle" title="Alternar tema">
+                <i class="fas fa-sun"></i>
+            </button>
             <div class="hamburger">
                 <span></span>
                 <span></span>
@@ -53,181 +67,531 @@
     </header>
 
     <section class="hero" id="inicio">
-        <div class="hero-content">
-            <h1>Soluções Digitais</h1>
-            <p>Transformamos ideias em soluções tecnológicas revolucionárias. Desenvolvemos softwares que impulsionam o
-                futuro da indústria e dos negócios.</p>
-            <a href="#portfolio" class="cta-button">Explore Nosso Portfólio</a>
+        <div class="starry-sky">
+            <div class="star star-1"></div>
+            <div class="star star-2"></div>
+            <div class="star star-3"></div>
+            <div class="star star-4"></div>
+            <div class="star star-5"></div>
+            <div class="star star-6"></div>
+            <div class="star star-7"></div>
+            <div class="star star-8"></div>
+            <div class="star star-9"></div>
+            <div class="star star-10"></div>
+            <div class="star star-11"></div>
+            <div class="star star-12"></div>
+            <div class="star star-13"></div>
+            <div class="star star-14"></div>
+            <div class="star star-15"></div>
+            <div class="star star-16"></div>
+            <div class="star star-17"></div>
+            <div class="star star-18"></div>
+            <div class="star star-19"></div>
+            <div class="star star-20"></div>
+        </div>
+        <div class="hero-grid">
+            <div class="hero-content">
+
+                <h1>
+                    <span class="hero-title-tech">Soluções_</span>
+                    <span class="hero-title-accent">Digitais</span>
+                    <span class="cursor-blink">|</span>
+                </h1>
+                <p class="hero-description">Transformamos ideias em soluções tecnológicas revolucionárias. Desenvolvemos softwares que impulsionam o futuro da indústria e dos negócios.</p>
+                <div class="hero-actions">
+                    <a href="#portfolio" class="cta-button primary">
+                        <span>Explore Nosso Portfólio</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#contato" class="cta-button secondary">
+                        <span>Fale Conosco</span>
+                        <i class="fas fa-comments"></i>
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">20+</span>
+                        <span class="stat-label">Projetos Ativos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2007</span>
+                        <span class="stat-label">Inovando Desde</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Foco no Cliente</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <!-- <div class="code-terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-buttons">
+                            <span class="btn-close"></span>
+                            <span class="btn-minimize"></span>
+                            <span class="btn-maximize"></span>
+                        </div>
+                        <div class="terminal-title">senai-solutions.dev</div>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="code-line">
+                            <span class="line-number">1</span>
+                            <span class="code-text"><span class="keyword">const</span> <span class="variable">innovation</span> = <span class="string">"AI + IoT"</span>;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">2</span>
+                            <span class="code-text"><span class="keyword">function</span> <span class="function">transformBusiness</span>() {</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">3</span>
+                            <span class="code-text">  <span class="keyword">return</span> <span class="string">"Digital Solutions"</span>;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">4</span>
+                            <span class="code-text">}</span>
+                        </div>
+                        <div class="code-line typing">
+                            <span class="line-number">5</span>
+                            <span class="code-text"><span class="comment">// Building the future...</span><span class="cursor">_</span></span>
+                        </div>
+                    </div>
+                </div> -->
+                
+                <div class="floating-elements">
+                    <div class="tech-badge badge-1">
+                        <i class="fas fa-brain"></i>
+                        <span>Inteligência Artificial</span>
+                    </div>
+                    <div class="tech-badge badge-2">
+                        <i class="fas fa-cloud"></i>
+                        <span>Nuvem</span>
+                    </div>
+                    <div class="tech-badge badge-3">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>Mobile</span>
+                    </div>
+                    <div class="tech-badge badge-4">
+                        <i class="fas fa-database"></i>
+                        <span>Big Data</span>
+                    </div>
+                    <div class="tech-badge badge-5">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Segurança</span>
+                    </div>
+                    <div class="tech-badge badge-6">
+                        <i class="fas fa-code"></i>
+                        <span>DevOps</span>
+                    </div>
+                    <div class="tech-badge badge-7">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Analytics</span>
+                    </div>
+                    <div class="tech-badge badge-8">
+                        <i class="fas fa-globe"></i>
+                        <span>Web</span>
+                    </div>
+                    <div class="tech-badge badge-9">
+                        <i class="fas fa-vr-cardboard"></i>
+                        <span>Realidade Aumentada</span>
+                    </div>
+                    <div class="tech-badge badge-10">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Qualidade</span>
+                    </div>
+                    <div class="tech-badge badge-11">
+                        <i class="fas fa-photo-video"></i>
+                        <span>Multimídia</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="portfolio" id="portfolio">
-        <div class="section-title" data-aos="fade-up">
-            <h2>Projetos em Destaque</h2>
-            <p>Conheça algumas das soluções digitais que desenvolvemos para revolucionar a indústria.</p>
+        <div class="portfolio-header">
+            <div class="section-title" data-aos="fade-up">
+                <div class="title-badge">
+                    <span class="badge-dot"></span>
+                    <span>Nosso Trabalho</span>
+                </div>
+                <h2>Projetos em <span class="highlight">Destaque</span></h2>
+                <p>Conheça algumas das soluções digitais que desenvolvemos para revolucionar a indústria.</p>
+            </div>
+
         </div>
 
-        <div class="products-grid" id="products-grid-homepage">
+        <div class="portfolio-showcase">
+            <div class="showcase-background">
+                <div class="bg-element element-1"></div>
+                <div class="bg-element element-2"></div>
+                <div class="bg-element element-3"></div>
+            </div>
+            <div class="products-grid" id="products-grid-homepage"></div>
         </div>
 
         <div class="see-all-container" data-aos="fade-up">
-            <a href="portfolio.html" class="cta-button">Ver todos os projetos</a>
+            <a href="portfolio.html" class="cta-button primary">
+                <span>Ver todos os projetos</span>
+                <i class="fas fa-external-link-alt"></i>
+            </a>
         </div>
     </section>
 
     <section id="servicos" class="services">
-        <div class="section-title" data-aos="fade-up">
-            <h2>Nossas Soluções</h2>
-            <p>Oferecemos um portfólio completo...</p>
-        </div>
-
-        <div class="services-grid">
-            <div class="service-card" data-aos="fade-up" data-aos-delay="100">
-                <div class="service-icon">
-                    <i class="fas fa-brain"></i>
+        <div class="services-container">
+            <div class="services-intro">
+                <div class="section-title" data-aos="fade-up">
+                    <div class="title-badge">
+                        <span class="badge-dot"></span>
+                        <span>Nossas Especialidades</span>
+                    </div>
+                    <h2>Soluções <span class="highlight">Completas</span></h2>
+                    <p>Oferecemos um portfólio completo de tecnologias avançadas para transformar seu negócio.</p>
                 </div>
-                <h3>Inteligência Artificial</h3>
-                <p>Desenvolvemos modelos preditivos, automação inteligente e soluções de visão computacional para
-                    extrair o máximo valor dos seus dados.</p>
             </div>
 
-            <div class="service-card" data-aos="fade-up" data-aos-delay="200">
-                <div class="service-icon">
-                    <i class="fas fa-vr-cardboard"></i>
-                </div>
-                <h3>Multimídia e Realidade Estendida</h3>
-                <p>Criamos experiências imersivas com realidade aumentada, mista e virtual (XR), além de jogos e
-                    simulações 3D para engajamento e treinamento.</p>
-            </div>
+            <div class="services-showcase">
+                <!-- <div class="services-background">
+                    <div class="code-snippet snippet-1">
+                        <span class="code-text">if (innovation) { deploy(); }</span>
+                    </div>
+                    <div class="code-snippet snippet-2">
+                        <span class="code-text">const future = await AI.transform();</span>
+                    </div>
+                    <div class="code-snippet snippet-3">
+                        <span class="code-text">// Building tomorrow, today</span>
+                    </div>
+                </div> -->
+                <div class="services-grid">
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="service-badge">Destaque</div>
+                        </div>
+                        <h3>Inteligência Artificial</h3>
+                        <p>Desenvolvemos modelos preditivos, automação inteligente e soluções de visão computacional.</p>
+                        <div class="service-features">
+                            <span class="feature-tag">Machine Learning</span>
+                            <span class="feature-tag">Computer Vision</span>
+                            <span class="feature-tag">NLP</span>
+                        </div>
+                    </div>
 
-            <div class="service-card" data-aos="fade-up" data-aos-delay="300">
-                <div class="service-icon">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <h3>Desenvolvimento Mobile</h3>
-                <p>Aplicativos nativos e multiplataforma para iOS e Android, conectando suas operações e equipes de
-                    forma ágil e intuitiva.</p>
-            </div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <i class="fas fa-vr-cardboard"></i>
+                            </div>
+                        </div>
+                        <h3>Realidade Estendida</h3>
+                        <p>Experiências imersivas com AR, VR e simulações 3D para treinamento e engajamento.</p>
+                        <div class="service-features">
+                            <span class="feature-tag">AR/VR</span>
+                            <span class="feature-tag">3D</span>
+                        </div>
+                    </div>
 
-            <div class="service-card" data-aos="fade-up" data-aos-delay="100">
-                <div class="service-icon">
-                    <i class="fas fa-book-medical"></i>
-                </div>
-                <h3>Software para Educação e Saúde</h3>
-                <p>Soluções tecnológicas especializadas para os setores educacional e de saúde, focadas em gestão,
-                    aprendizado e cuidado ao paciente.</p>
-            </div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                        </div>
+                        <h3>Desenvolvimento Mobile</h3>
+                        <p>Apps nativos e multiplataforma para iOS e Android com foco em performance.</p>
+                        <div class="service-features">
+                            <span class="feature-tag">iOS</span>
+                            <span class="feature-tag">Android</span>
+                        </div>
+                    </div>
 
-            <div class="service-card" data-aos="fade-up" data-aos-delay="200">
-                <div class="service-icon">
-                    <i class="fas fa-globe"></i>
-                </div>
-                <h3>Desenvolvimento Web</h3>
-                <p>Construímos plataformas web modernas, portais e aplicações responsivas com foco em performance,
-                    usabilidade e segurança.</p>
-            </div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                        </div>
+                        <h3>EdTech & HealthTech</h3>
+                        <p>Soluções especializadas para educação e saúde com foco em gestão e cuidado.</p>
+                        <div class="service-features">
+                            <span class="feature-tag">E-learning</span>
+                            <span class="feature-tag">Telemedicina</span>
+                        </div>
+                    </div>
 
-            <div class="service-card" data-aos="fade-up" data-aos-delay="300">
-                <div class="service-icon">
-                    <i class="fas fa-sitemap"></i>
-                </div>
-                <h3>Sistemas de Gestão</h3>
-                <p>Desenvolvemos sistemas corporativos sob medida (ERPs, CRMs) para integrar e otimizar a gestão dos
-                    seus processos de negócio.</p>
-            </div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                        </div>
+                        <h3>Desenvolvimento Web</h3>
+                        <p>Plataformas web modernas e responsivas com performance e segurança.</p>
+                        <div class="service-features">
+                            <span class="feature-tag">React</span>
+                            <span class="feature-tag">Node.js</span>
+                        </div>
+                    </div>
 
-            <div class="service-card" data-aos="fade-up" data-aos-delay="100">
-                <div class="service-icon">
-                    <i class="fas fa-database"></i>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <h3>Big Data & Analytics</h3>
+                        <p>Análise de grandes volumes de dados para insights estratégicos e dashboards.</p>
+                        <div class="service-features">
+                            <span class="feature-tag">BI</span>
+                            <span class="feature-tag">Dashboards</span>
+                        </div>
+                    </div>
                 </div>
-                <h3>Big Data & Analytics</h3>
-                <p>Estruturamos e analisamos grandes volumes de dados para gerar dashboards e insights estratégicos que
-                    apoiam a tomada de decisão.</p>
             </div>
-
         </div>
     </section>
 
     <section class="about" id="sobre">
-        <div class="section-title">
-            <h2>Sobre o SENAI Soluções Digitais</h2>
-            <p>Impulsionando a Indústria e os Negócios com Tecnologia.</p>
-        </div>
-        <div class="about-content">
-            <p>
-                No **SENAI Soluções Digitais**, somos a vanguarda da inovação tecnológica, dedicados a desenvolver
-                softwares e soluções digitais que transformam a realidade da indústria e dos negócios. Com uma equipe
-                multidisciplinar de especialistas e a expertise de anos do SENAI, criamos sistemas robustos, intuitivos
-                e escaláveis, prontos para impulsionar a produtividade, otimizar processos e abrir novos horizontes para
-                sua empresa.
-            </p>
-            <p>
-                Nossa missão é ir além da programação, entregando valor real através de projetos que integram
-                Inteligência Artificial, IoT, Automação, Big Data e as mais recentes tendências do mercado. Seja para
-                otimizar a gestão industrial, criar plataformas de e-learning engajadoras ou desenvolver ferramentas de
-                análise de dados preditivas, estamos preparados para ser o seu parceiro na jornada da transformação
-                digital.
-            </p>
-            <p>
-                Acreditamos que a tecnologia é a chave para um futuro mais eficiente e competitivo. Conecte-se conosco e
-                descubra como podemos construir soluções sob medida para os seus desafios mais complexos.
-            </p>
+        <div class="about-container">
+            <div class="about-grid">
+                <div class="about-content" data-aos="fade-right">
+                    <div class="section-title">
+                        <div class="title-badge">
+                            <span class="badge-dot"></span>
+                            <span>Quem Somos</span>
+                        </div>
+                        <h2>SENAI <span class="highlight">Soluções Digitais</span></h2>
+                        <p class="subtitle">Impulsionando a Indústria e os Negócios com Tecnologia.</p>
+                    </div>
+                    
+                    <div class="about-text">
+                        <p class="lead">
+                            Somos a vanguarda da inovação tecnológica, dedicados a desenvolver softwares e soluções digitais que transformam a realidade da indústria e dos negócios.
+                        </p>
+                        <p>
+                            Nossa missão é ir além da programação, entregando valor real através de projetos que integram Inteligência Artificial, IoT, Automação, Big Data e as mais recentes tendências do mercado.
+                        </p>
+                    </div>
 
+                    <div class="about-features">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Inovação Constante</h4>
+                                <p>Sempre na vanguarda das tecnologias emergentes</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Equipe Especializada</h4>
+                                <p>Profissionais multidisciplinares e experientes</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Soluções Sob Medida</h4>
+                                <p>Desenvolvemos para suas necessidades específicas</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-visual" data-aos="fade-left">
+                    <div class="visual-grid">
+                        <div class="visual-card card-ai">
+                            <div class="card-icon">🤖</div>
+                            <span>Inteligência Artificial</span>
+                        </div>
+                        <div class="visual-card card-iot">
+                            <div class="card-icon">🌐</div>
+                            <span>IoT & Conectividade</span>
+                        </div>
+                        <div class="visual-card card-data">
+                            <div class="card-icon">📊</div>
+                            <span>Big Data Analytics</span>
+                        </div>
+                        <div class="visual-card card-cloud">
+                            <div class="card-icon">☁️</div>
+                            <span>Cloud Computing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="contact" id="contato">
-        <div class="section-title">
-            <h2>Entre em Contato</h2>
-            <p>Fale conosco e leve a inovação para sua empresa.</p>
-        </div>
-        <div class="contact-content">
-            <p>Estamos prontos para atender suas demandas e transformar suas ideias em realidade digital.</p>
-            <p>Email: <a href="mailto:contato@senaisolucoesdigitais.com.br">contato@senaisolucoesdigitais.com.br</a></p>
-            <p>Telefone: (XX) XXXX-XXXX</p>
+        <div class="contact-container">
+            <div class="contact-grid">
+                <div class="contact-info" data-aos="fade-right">
+                    <div class="section-title">
+                        <div class="title-badge">
+                            <span class="badge-dot"></span>
+                            <span>Vamos Conversar</span>
+                        </div>
+                        <h2>Entre em <span class="highlight">Contato</span></h2>
+                        <p class="subtitle">Fale conosco e leve a inovação para sua empresa.</p>
+                    </div>
+                    
+                    <div class="contact-text">
+                        <p class="lead">Estamos prontos para atender suas demandas e transformar suas ideias em realidade digital.</p>
+                    </div>
+
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <div class="method-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="method-content">
+                                <h4>Email</h4>
+                                <a href="mailto:contato@senaisolucoesdigitais.com.br">contato@senaisolucoesdigitais.com.br</a>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="method-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="method-content">
+                                <h4>Telefone</h4>
+                                <span>(XX) XXXX-XXXX</span>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="method-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="method-content">
+                                <h4>Localização</h4>
+                                <span>Santa Catarina, Brasil</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-cta" data-aos="fade-left">
+                    <div class="cta-card">
+                        <div class="cta-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3>Pronto para Inovar?</h3>
+                        <p>Vamos discutir como podemos transformar suas ideias em soluções digitais revolucionárias.</p>
+                        <div class="cta-actions">
+                            <a href="mailto:contato@senaisolucoesdigitais.com.br" class="cta-button primary">
+                                <span>Iniciar Projeto</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                            <a href="#portfolio" class="cta-button secondary">
+                                <span>Ver Portfólio</span>
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="carreiras" class="careers-section">
-        <div class="section-title" data-aos="fade-up">
-            <h2>Faça Parte da Nossa Equipe</h2>
-            <p>Buscamos talentos apaixonados por tecnologia para construir o futuro da indústria.</p>
-        </div>
-
-        <div class="careers-content" data-aos="fade-up" data-aos-delay="100">
-            <p class="careers-intro">
-                No SENAI Soluções Digitais, você terá a oportunidade de trabalhar em projetos desafiadores que integram
-                Inteligência Artificial, Realidade Estendida e desenvolvimento de software de ponta. Se você quer
-                resolver problemas complexos e ver seu código gerando impacto real, seu lugar é aqui.
-            </p>
-
-            <a href="https://fiesc.pandape.infojobs.com.br/" target="_blank" class="cta-button">
-                Ver Vagas no Portal FIESC <i class="fas fa-external-link-alt"></i>
-            </a>
-            <p class="disclaimer-text">
-                Nosso processo seletivo é centralizado na plataforma de carreiras da FIESC.
-            </p>
-
-            <div class="careers-social">
-                <h3>Acompanhe as Novas Oportunidades:</h3>
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/company/82673207/" target="_blank" aria-label="LinkedIn">
-                        <i class="fab fa-linkedin"></i> LinkedIn
-                    </a>
-                    <a href="https://www.instagram.com/senaisolucoesdigitais.sc/" target="_blank"
-                        aria-label="Instagram">
-                        <i class="fab fa-instagram"></i> Instagram
-                    </a>
-                    <a href="https://www.facebook.com/senaisolucoesdigitais.sc/" target="_blank" aria-label="Facebook">
-                        <i class="fab fa-facebook"></i> Facebook
-                    </a>
+        <div class="careers-container">
+            <div class="careers-hero" data-aos="fade-up">
+                <div class="section-title">
+                    <div class="title-badge">
+                        <span class="badge-dot"></span>
+                        <span>Junte-se a Nós</span>
+                    </div>
+                    <h2>Faça Parte da Nossa <span class="highlight">Equipe</span></h2>
+                    <p class="subtitle">Buscamos talentos apaixonados por tecnologia para construir o futuro da indústria.</p>
                 </div>
             </div>
 
-            <p class="fiesc-info-link">
-                Para saber mais sobre a cultura e os benefícios de trabalhar na instituição, visite a página <a
-                    href="https://fiesc.com.br/trabalhe-conosco" target="_blank">Carreiras FIESC</a>.
-            </p>
+            <div class="careers-grid">
+                <div class="careers-content" data-aos="fade-right">
+                    <div class="careers-text">
+                        <p class="lead">
+                            No SENAI Soluções Digitais, você terá a oportunidade de trabalhar em projetos desafiadores que integram Inteligência Artificial, Realidade Estendida e desenvolvimento de software de ponta.
+                        </p>
+                        <p>
+                            Se você quer resolver problemas complexos e ver seu código gerando impacto real, seu lugar é aqui.
+                        </p>
+                    </div>
+
+                    <div class="careers-benefits">
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>Projetos Inovadores</h4>
+                                <p>Trabalhe com IA, IoT e tecnologias emergentes</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>Equipe Colaborativa</h4>
+                                <p>Ambiente de trabalho dinâmico e inclusivo</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>Crescimento Contínuo</h4>
+                                <p>Oportunidades de aprendizado e desenvolvimento</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="careers-cta" data-aos="fade-left">
+                    <div class="cta-card">
+                        <div class="cta-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h3>Pronto para o Desafio?</h3>
+                        <p>Explore as oportunidades disponíveis e candidate-se às vagas que combinam com seu perfil.</p>
+                        
+                        <div class="cta-actions">
+                            <a href="https://fiesc.pandape.infojobs.com.br/" target="_blank" class="cta-button primary">
+                                <span>Ver Vagas Disponíveis</span>
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                        
+                        <p class="disclaimer-text">
+                            Processo seletivo centralizado na plataforma FIESC.
+                        </p>
+                    </div>
+
+                    <div class="social-follow">
+                        <h4>Acompanhe as Oportunidades:</h4>
+                        <div class="social-links">
+                            <a href="https://www.linkedin.com/company/82673207/" target="_blank" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin"></i> LinkedIn
+                            </a>
+                            <a href="https://www.instagram.com/senaisolucoesdigitais.sc/" target="_blank" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i> Instagram
+                            </a>
+                            <a href="https://www.facebook.com/senaisolucoesdigitais.sc/" target="_blank" aria-label="Facebook">
+                                <i class="fab fa-facebook"></i> Facebook
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 

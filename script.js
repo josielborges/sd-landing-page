@@ -10,7 +10,7 @@ const onPortfolioPage = document.getElementById('products-grid-full');
 let allProjects = [];
 let currentlyVisibleProjects = [];
 const projectDetailOverlay = document.getElementById('project-detail-overlay');
-const projectDetailContentWrapper = projectDetailOverlay.querySelector('.project-detail-content-wrapper');
+const projectDetailContentWrapper = projectDetailOverlay ? projectDetailOverlay.querySelector('.project-detail-content-wrapper') : null;
 const prevProjectBtn = document.getElementById('prev-project-btn');
 const nextProjectBtn = document.getElementById('next-project-btn');
 const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
@@ -23,6 +23,36 @@ const observer = new IntersectionObserver((entries, observer) => {
         }
     });
 }, observerOptions);
+
+// ===================== THEME TOGGLE =====================
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+
+function toggleTheme() {
+    body.classList.toggle('light-theme');
+    const isLight = body.classList.contains('light-theme');
+    
+    // Update icon
+    const icon = themeToggle.querySelector('i');
+    icon.className = isLight ? 'fas fa-moon' : 'fas fa-sun';
+    
+    // Save preference
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+
+// Load saved theme
+function loadTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        body.classList.add('light-theme');
+        const icon = themeToggle.querySelector('i');
+        icon.className = 'fas fa-moon';
+    }
+}
+
+if (themeToggle) {
+    themeToggle.addEventListener('click', toggleTheme);
+}
 
 // ===================== MOBILE MENU =====================
 const hamburger = document.querySelector('.hamburger');
@@ -69,7 +99,12 @@ document.addEventListener('keydown', (e) => {
 
 // ===================== OVERLAY / PROJECT DETAIL =====================
 async function showProjectDetail(projectHtmlPath) {
-    const finalFetchUrl = BASE_PATH + projectHtmlPath;
+    if (!projectDetailOverlay || !projectDetailContentWrapper) {
+        console.error('Overlay elements not found');
+        return;
+    }
+    
+    const finalFetchUrl = BASE_PATH + '/dist' + projectHtmlPath;
     try {
         const response = await fetch(finalFetchUrl);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -93,6 +128,8 @@ async function showProjectDetail(projectHtmlPath) {
 }
 
 function updateProjectNavigation() {
+    if (!prevProjectBtn || !nextProjectBtn) return;
+    
     const currentHash = window.location.hash;
     if (currentlyVisibleProjects.length < 2) {
         prevProjectBtn.classList.add('disabled');
@@ -127,6 +164,8 @@ function updateProjectNavigation() {
 }
 
 function hideProjectDetail() {
+    if (!projectDetailOverlay || !projectDetailContentWrapper) return;
+    
     projectDetailOverlay.classList.remove('active');
     document.body.classList.remove('overlay-active');
     setTimeout(() => { projectDetailContentWrapper.innerHTML = ''; }, 400);
@@ -166,7 +205,7 @@ function renderProjectCards(projects, gridElement) {
             <h3>${project.name}</h3>
             <p>${project.description}</p>
             <div class="product-tags">${project.tags ? project.tags.map(tag => `<span class="tag">${tag.trim()}</span>`).join('') : ''}</div>
-            <a href="${projectHash}" class="product-link">Ver detalhes →</a>`;
+            <a href="${projectHash}" class="product-link">Ver detalhes</a>`;
         
         gridElement.appendChild(newCard);
     });
@@ -237,12 +276,17 @@ function wrapYouTubeVideos(container) {
 }
 
 // ===================== EVENT LISTENERS & PAGE INIT =====================
-projectDetailOverlay.addEventListener('click', function(event) {
-    if (event.target.classList.contains('project-detail-content-wrapper')) {
-        window.location.hash = 'portfolio';
-    }
-});
+if (projectDetailOverlay) {
+    projectDetailOverlay.addEventListener('click', function(event) {
+        if (event.target.classList.contains('project-detail-content-wrapper')) {
+            window.location.hash = 'portfolio';
+        }
+    });
+}
 document.addEventListener('DOMContentLoaded', () => {
+    // Load saved theme
+    loadTheme();
+    
     if (onHomePage) {
         initializeHomepage();
     } else if (onPortfolioPage) {
@@ -275,7 +319,7 @@ window.addEventListener('hashchange', handleRouting);
 window.addEventListener('keydown', function (event) {
     // 1. Verifica se a tecla pressionada foi 'Escape'
     // 2. E também se o overlay de detalhes está atualmente ativo/visível
-    if (event.key === 'Escape' && projectDetailOverlay.classList.contains('active')) {
+    if (event.key === 'Escape' && projectDetailOverlay && projectDetailOverlay.classList.contains('active')) {
         
         // Usa a mesma lógica do botão "Voltar" e do "clicar fora"
         // para fechar o overlay e rolar de volta para a seção do portfólio.
