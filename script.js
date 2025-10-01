@@ -4,7 +4,7 @@
 
 // ===================== ENVIRONMENT & GLOBALS =====================
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '0.0.0.0';
-const BASE_PATH = isLocal ? '' : '/sd-landing-page';
+const BASE_PATH = isLocal ? '/dist' : '/sd-landing-page';
 const onHomePage = document.getElementById('products-grid-homepage');
 const onPortfolioPage = document.getElementById('products-grid-full');
 let allProjects = [];
@@ -108,7 +108,7 @@ async function showProjectDetail(projectHtmlPath) {
         return;
     }
     
-    const finalFetchUrl = BASE_PATH + '/dist' + projectHtmlPath;
+    const finalFetchUrl = BASE_PATH + projectHtmlPath;
     try {
         const response = await fetch(finalFetchUrl);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
